@@ -2,10 +2,10 @@ package imamJmartMR;
 
 public class PriceTag {
     
-    static double COMMISION_MULTIPLIER = 0.05;
-    static double BOTTOM_PRICE = 20000.0;
-    static double BOTTOM_FEE = 1000.0;
-    double discount, price;
+    public final double COMMISION_MULTIPLIER = 0.05;
+    public final double BOTTOM_PRICE = 20000.0;
+    public final double BOTTOM_FEE = 1000.0;
+    public double discount, price;
     
     public PriceTag(double price){
         this.price = price;
