@@ -7,11 +7,11 @@ public class Jmart{
     }
     
     public Product createProduct(){
-        return null;
+        return new Product("Imam", 100, false, new PriceTag(1000), ProductCategory.BOOK);
     }
     
     public Coupon createCoupon(){
-        return null;
+        return new Coupon("Azka", 1, Type.DISCOUNT, 0.5, 100);
     }
     
     /*public ShipmentDuration createShipmentDuration(){
