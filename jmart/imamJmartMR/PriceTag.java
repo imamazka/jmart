@@ -2,9 +2,9 @@ package imamJmartMR;
 
 public class PriceTag {
     
-    public final double COMMISION_MULTIPLIER = 0.05;
-    public final double BOTTOM_PRICE = 20000.0;
-    public final double BOTTOM_FEE = 1000.0;
+    public static final double COMMISSION_MULTIPLIER = 0.05;
+    public static final double BOTTOM_PRICE = 20000.0;
+    public static final double BOTTOM_FEE = 1000.0;
     public double discount, price;
     
     public PriceTag(double price){
@@ -22,24 +22,15 @@ public class PriceTag {
     }
     
     public double getAdminFee(){
-        if(price < BOTTOM_PRICE){
+        double discountedPrice = getDiscountedPrice();
+        if (discountedPrice < BOTTOM_PRICE)
             return BOTTOM_FEE;
-        }
-        else{
-            return price - (price * COMMISION_MULTIPLIER);
-        }
+        return COMMISSION_MULTIPLIER * discountedPrice;
     }
     
     private double getDiscountedPrice(){
-        if(discount > 100.0){
-            discount = 100.0;
-        }
-        
-        if(discount == 100.0){
-            return 0.0;
-        }
-        else{
-            return price - (price * discount);
-        }
+        if (discount >= 100.0) return 0.0;
+        double cut = price * discount / 100.0;
+        return price - cut; 
     }
 }

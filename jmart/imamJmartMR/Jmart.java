@@ -6,15 +6,15 @@ public class Jmart{
         
     }
     
-    public Product createProduct(){
-        return new Product("Imam", 100, false, new PriceTag(1000), ProductCategory.BOOK);
-    }
-    
-    public Coupon createCoupon(){
-        return new Coupon("Azka", 1, Type.DISCOUNT, 0.5, 100);
-    }
-    
-    /*public ShipmentDuration createShipmentDuration(){
+    public static Product createProduct(){
         return null;
-    }*/
+    }
+    
+    public static Coupon createCoupon(){
+        return null;
+    }
+    
+    public static ShipmentDuration createShipmentDuration(){
+        return null;
+    }
 }

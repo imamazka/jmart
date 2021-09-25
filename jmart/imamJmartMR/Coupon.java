@@ -1,16 +1,22 @@
 package imamJmartMR;
 
-public class Coupon
+public class Coupon extends Recognizable
 {
-    public static String name;
-    public static int code;
-    public static double cut;
-    public static Type type;
-    public static double minimum;
+    public int id;
+    public final String name;
+    public final int code;
+    public final double cut;
+    public final Type type;
+    public final double minimum;
     private boolean used;
     
-    public Coupon(String name, int code, Type type, double cut, double minimum){
-        
+    public enum Type{
+        DISCOUNT,
+        REBATE
+    }
+    
+    public Coupon(int id, String name, int code, Type type, double cut, double minimum){
+        super(id);
         this.name = name;
         this.code = code;
         this.type = type;
@@ -36,8 +42,17 @@ public class Coupon
     
     public double apply(PriceTag priceTag){
         
-        this.used = true;
-        return priceTag.getAdjustedPrice() - cut;
-        
+        used = true;
+        double adjustedPrice = priceTag.getAdjustedPrice();
+        switch (type)
+        {
+            case REBATE:
+                if (adjustedPrice >= cut) return 0.0;
+                return adjustedPrice - cut;
+            case DISCOUNT:
+                if (cut >= 100.0) return 0.0;
+                return adjustedPrice - adjustedPrice * cut;
+        }
+        return 0.0;
     }
 }
