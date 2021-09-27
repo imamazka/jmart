@@ -1,6 +1,6 @@
 package imamJmartMR;
 
-public abstract class Store extends Recognizable implements FileParser
+public class Store extends Recognizable implements FileParser
 {
     String name, address, phoneNumber;
     
@@ -21,5 +21,9 @@ public abstract class Store extends Recognizable implements FileParser
     @Override
     public boolean read(String Content){
         return false;
+    }
+    
+    public String toString(){
+        return "name: PT Madju Merdeka\naddress: Jl. Kukusan\nphoneNumber: 628777xxxx";
     }
 }

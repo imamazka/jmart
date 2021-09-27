@@ -1,6 +1,6 @@
 package imamJmartMR;
 
-public abstract class Account extends Recognizable implements FileParser
+public class Account extends Recognizable implements FileParser
 {
     public String name, email, password;
     
@@ -14,5 +14,9 @@ public abstract class Account extends Recognizable implements FileParser
     @Override
     public boolean read(String Content){
         return false;
+    }
+    
+    public String toString(){
+        return "name: Ramadhan\nemail: ramadhanganteng@gmail.com\npassword: gu3G4ntEnG";
     }
 }

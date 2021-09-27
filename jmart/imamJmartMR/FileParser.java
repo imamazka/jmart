@@ -7,7 +7,7 @@ interface FileParser
     default Object write(){
         return null;
     }
-    default Object newInstance(String Content){
+    static Object newInstance(String Content){
         return null;
     }
 }

@@ -1,6 +1,6 @@
 package imamJmartMR;
 
-public class Coupon extends Recognizable
+public class Coupon extends Recognizable implements FileParser
 {
     public int id;
     public final String name;
@@ -54,5 +54,10 @@ public class Coupon extends Recognizable
                 return adjustedPrice - adjustedPrice * cut;
         }
         return 0.0;
+    }
+    
+    @Override
+    public boolean read(String Content){
+        return false;
     }
 }

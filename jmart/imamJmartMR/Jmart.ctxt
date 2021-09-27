@@ -7,5 +7,5 @@ comment2.target=Product\ createProduct()
 comment3.params=
 comment3.target=Coupon\ createCoupon()
 comment4.params=
-comment4.target=ShipmentDuration\ createShipmentDuration()
+comment4.target=Shipment\ createShipmentDuration()
 numComments=5

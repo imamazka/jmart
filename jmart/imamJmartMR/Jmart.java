@@ -14,7 +14,7 @@ public class Jmart{
         return null;
     }
     
-    public static ShipmentDuration createShipmentDuration(){
+    public static Shipment createShipmentDuration(){
         return null;
     }
 }

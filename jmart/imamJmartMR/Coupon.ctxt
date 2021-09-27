@@ -8,4 +8,6 @@ comment3.params=priceTag
 comment3.target=boolean\ canApply(PriceTag)
 comment4.params=priceTag
 comment4.target=double\ apply(PriceTag)
-numComments=5
+comment5.params=Content
+comment5.target=boolean\ read(java.lang.String)
+numComments=6

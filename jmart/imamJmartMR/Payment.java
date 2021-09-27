@@ -1,27 +1,23 @@
 package imamJmartMR;
 
-public class Payment extends Transaction implements FileParser
+public class Payment extends Invoice implements Transactor
 {
-    public int productId;
-    public ShipmentDuration shipmentDuration;
+    public Shipment shipment;
+    public int productCount;
     
-    Payment(int id, int buyerId, Product product, ShipmentDuration shipmentDuration){
-        super(id, buyerId, product.storeId);
-    }
-    Payment(int id, int buyerId, int storeId, int productId, ShipmentDuration shipmentDuration){
-        super(buyerId, storeId, productId);
+    public Payment(int id, int buyerId, int productId, int productCount, Shipment shipment){
+        super(id, buyerId, productId);
+        this.productCount = productCount;
+        this.shipment = shipment;
     }
     
+    @Override
     public boolean validate(){
         return false;
     }
     
-    public Transaction perform(){
-        return null;
-    }
-    
     @Override
-    public boolean read(String Content){
-        return false;
+    public Invoice perform(){
+        return null;
     }
 }
