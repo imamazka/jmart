@@ -1,6 +1,5 @@
 package imamJmartMR;
 
-
 interface FileParser
 {
     public boolean read(String Content);

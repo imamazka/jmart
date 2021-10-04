@@ -1,4 +1,6 @@
 package imamJmartMR;
+import java.util.Date;
+import java.util.ArrayList;
 
 public class Invoice extends Recognizable implements FileParser
 {
@@ -8,6 +10,7 @@ public class Invoice extends Recognizable implements FileParser
     public int complaintId;
     public Rating rating;
     public Status status;
+    public ArrayList<Record> history;
     
     public enum Status{
         WAITING_CONFIRMATION,
@@ -61,5 +64,12 @@ public class Invoice extends Recognizable implements FileParser
         public Invoice perform(){
             return null;
         }
+    }
+    
+    public class Record
+    {
+        public Status status;
+        public Date date;
+        public String message;
     }
 }
