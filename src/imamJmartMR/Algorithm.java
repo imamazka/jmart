@@ -2,7 +2,7 @@ package imamJmartMR;
 import java.lang.*;
 import java.util.*;
 
-public class Algorithm  {
+public class Algorithm {
 
     private Algorithm(){}
 
@@ -85,6 +85,12 @@ public class Algorithm  {
         return null;
     }
     public static <T> T find(Iterator<T> iterator, T value) {
+        T t;
+        while(iterator.hasNext()){
+            t = iterator.next();
+            if(t.equals(value))
+                return t;
+        }
         return null;
     }
     public static <T> T find(T[] array, Predicate<T> pred) {
@@ -102,13 +108,28 @@ public class Algorithm  {
         return null;
     }
     public static <T> T find(Iterator<T> iterator, Predicate<T> pred) {
+        T t;
+        while(iterator.hasNext()){
+            t = iterator.next();
+            if(t.equals(pred))
+                return t;
+        }
         return null;
     }
 
-    public static <T> T max(T first, T second) {
-        return null;
+
+    public static <T extends Comparable> T max(T first, T second) {
+
+        if((first.compareTo(second)) == -1)
+            return second;
+        else
+            return first;
     }
-    public static <T> T min(T first, T second) {
-        return null;
+    public static <T extends Comparable> T min(T first, T second) {
+
+        if((first.compareTo(second)) == -1)
+            return first;
+        else
+            return second;
     }
 }
