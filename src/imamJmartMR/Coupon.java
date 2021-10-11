@@ -28,7 +28,7 @@ public class Coupon extends Recognizable
         return used;
     }
     
-    public boolean canApply(PriceTag priceTag){
+    public boolean canApply(Treasury priceTag){
         
         if(priceTag.getAdjustedPrice() >= minimum && used == false){
            return true; 
@@ -39,7 +39,7 @@ public class Coupon extends Recognizable
         }
     }
     
-    public double apply(PriceTag priceTag){
+    public double apply(Treasury priceTag){
         
         used = true;
         double adjustedPrice = priceTag.getAdjustedPrice();

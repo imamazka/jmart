@@ -1,18 +1,18 @@
 package imamJmartMR;
 
-public class PriceTag {
+public class Treasury {
     
     public static final double COMMISSION_MULTIPLIER = 0.05;
     public static final double BOTTOM_PRICE = 20000.0;
     public static final double BOTTOM_FEE = 1000.0;
     public double discount, price;
  
-    public PriceTag(double price){
+    public Treasury(double price){
         this.price = price;
         this.discount = 0.0;
     }
     
-    public PriceTag(double price, double discount){
+    public Treasury(double price, double discount){
         this.price = price;
         this.discount = discount;
     }

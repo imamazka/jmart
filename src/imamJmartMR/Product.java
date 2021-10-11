@@ -7,12 +7,12 @@ public class Product extends Recognizable
     public String name;
     public int weight;
     public boolean conditionUsed;
-    public PriceTag priceTag;
+    public Treasury priceTag;
     public ProductCategory category;
     public ProductRating rating;
     public Shipment.MultiDuration multiDuration;
     
-    public Product(int id, int storeId, String name, int weight, boolean conditionUsed, PriceTag priceTag, ProductCategory category, Shipment.MultiDuration multiDuration){
+    public Product(int id, int storeId, String name, int weight, boolean conditionUsed, Treasury priceTag, ProductCategory category, Shipment.MultiDuration multiDuration){
         this.storeId = storeId;
         this.name = name;
         this.weight = weight;
