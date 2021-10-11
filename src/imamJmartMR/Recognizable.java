@@ -5,8 +5,8 @@ public class Recognizable implements Comparable<Recognizable>
 {
     public final int id;
     
-    protected Recognizable(int id) {
-        this.id = id;
+    protected Recognizable() {
+        this.id = 0;
     }
 
     public boolean equals(Object obj) {

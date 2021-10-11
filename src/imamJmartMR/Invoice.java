@@ -2,7 +2,7 @@ package imamJmartMR;
 import java.util.Date;
 import java.util.ArrayList;
 
-public class Invoice extends Recognizable implements FileParser
+public class Invoice extends Recognizable
 {
     public String date;
     public int buyerId;
@@ -30,21 +30,14 @@ public class Invoice extends Recognizable implements FileParser
     }
     
     protected Invoice(int id, int buyerId, int productId){
-        super(id);
         this.buyerId = buyerId;
         this.productId = productId;
         this.date = "September";
         this.rating = Rating.NONE;
         this.status = Status.WAITING_CONFIRMATION;
     }
-    
-    @Override
-    public boolean read(String Content){
-        return false;
-    }
-    
-    
-    public class Payment extends Invoice implements Transactor
+
+    public class Payment extends Invoice
     {
         public Shipment shipment;
         public int productCount;
@@ -53,16 +46,6 @@ public class Invoice extends Recognizable implements FileParser
             super(id, buyerId, productId);
             this.productCount = productCount;
             this.shipment = shipment;
-        }
-        
-        @Override
-        public boolean validate(){
-          return false;  
-        }
-        
-        @Override
-        public Invoice perform(){
-            return null;
         }
     }
     

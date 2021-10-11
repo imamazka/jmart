@@ -1,6 +1,6 @@
 package imamJmartMR;
 
-public class Payment extends Invoice implements Transactor
+public class Payment extends Invoice
 {
     public Shipment shipment;
     public int productCount;
@@ -9,15 +9,5 @@ public class Payment extends Invoice implements Transactor
         super(id, buyerId, productId);
         this.productCount = productCount;
         this.shipment = shipment;
-    }
-    
-    @Override
-    public boolean validate(){
-        return false;
-    }
-    
-    @Override
-    public Invoice perform(){
-        return null;
     }
 }

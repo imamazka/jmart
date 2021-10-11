@@ -2,22 +2,20 @@ package imamJmartMR;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class Shipment implements FileParser
+public class Shipment
 {
     public String address;
-    public int shipmentCost;
-    public Duration duration;
+    public int cost;
+    public byte plan;
     public String receipt;
     
-    public Shipment(String address, int shipmentCost, Duration duration, String receipt){
-        
+    public Shipment(String address, int cost, byte plan, String receipt){
+        this.address = address;
+        this.cost = cost;
+        this.plan = plan;
+        this.receipt = receipt;
     }
-    
-    @Override
-    public boolean read(String Content){
-        return false;
-    }
-    
+
     public class Duration
     {
         public final SimpleDateFormat ESTIMATION_FORMAT = new SimpleDateFormat("EE MMMMM dd yyyy");

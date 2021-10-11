@@ -2,22 +2,16 @@ package imamJmartMR;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Account extends Recognizable implements FileParser
+public class Account extends Recognizable
 {
     public static final String REGEX_EMAIL = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
     public static final String REGEX_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
     public String name, email, password;
     
     public Account(int id, String name, String email, String password){
-        super(id);
         this.name = name;
         this.email = email;
         this.password = password;
-    }
-    
-    @Override
-    public boolean read(String Content){
-        return false;
     }
     
     public String toString(){

@@ -2,35 +2,24 @@ package imamJmartMR;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Store extends Recognizable implements FileParser
+public class Store extends Recognizable
 {
-	public static final String REGEX_PHONE = "^\\\\d{9,12}$"; 
+	public static final String REGEX_PHONE = "^\\\\d{9,12}$";
 	public static final String REGEX_NAME = "^[A-Z](?!.*(\\s)\\1).{4,20}$";
     String name, address, phoneNumber;
-    
-    public Store(int accountId, String name, String address, String phoneNumber){
-        super(accountId);
+    double balance;
+
+    public Store(int accountId, String name, String address, String phoneNumber, double balance){
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.balance = balance;
     }
-    
-    public Store(Account account, String name, String address, String phoneNumber){
-        super(account.id);
-        this.name = name;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-    }
-    
-    @Override
-    public boolean read(String Content){
-        return false;
-    }
-    
+
     public String toString(){
         return "name: PT Madju Merdeka\naddress: Jl. Kukusan\nphoneNumber: 628777xxxx";
     }
-    
+
     public boolean validate() {
     	Pattern pattern = Pattern.compile(REGEX_NAME);
         Matcher matcher = pattern.matcher(name);
