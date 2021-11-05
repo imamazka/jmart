@@ -9,17 +9,17 @@ public class Recognizable implements Comparable<Recognizable>
         this.id = 0;
     }
 
-    public boolean equals(Object obj) {
+    public boolean equals(Object other) {
         
-        if(obj instanceof Recognizable) {
-            Recognizable r = (Recognizable)obj;
+        if(other instanceof Recognizable) {
+            Recognizable r = (Recognizable)other;
             return r.id == id ? true:false;
         }
         return false;
     }
     
-    public boolean equals(Recognizable rec){
-        return id == rec.id ? true:false;
+    public boolean equals(Recognizable other){
+        return id == other.id ? true:false;
     }
 
     @Override

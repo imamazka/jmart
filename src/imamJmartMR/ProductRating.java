@@ -10,11 +10,6 @@ public class ProductRating{
         this.count = 0;
     }
     
-    public void insert(int rating){
-        this.total = total + rating;
-        this.count++;
-    }
-    
     public double getAverage(){
         if(count == 0.0){
             return 0.0;
@@ -30,5 +25,10 @@ public class ProductRating{
     
     public long getTotal(){
         return total;
+    }
+
+    public void insert(int rating){
+        this.total = total + rating;
+        this.count++;
     }
 }

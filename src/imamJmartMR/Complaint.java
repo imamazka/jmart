@@ -5,10 +5,11 @@ import java.text.*;
 
 public class Complaint extends Recognizable
 {
-    public Date date;
+    public final Date date;
     public String desc;
     
     public Complaint(int id, String desc){
+        this.desc = desc;
         this.date = Calendar.getInstance().getTime();
     }
 

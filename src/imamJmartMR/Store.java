@@ -2,12 +2,14 @@ package imamJmartMR;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Store extends Recognizable
+public class Store
 {
 	public static final String REGEX_PHONE = "^\\\\d{9,12}$";
 	public static final String REGEX_NAME = "^[A-Z](?!.*(\\s)\\1).{4,20}$";
-    String name, address, phoneNumber;
-    double balance;
+    public String name;
+    public String address;
+    public String phoneNumber;
+    public double balance;
 
     public Store(int accountId, String name, String address, String phoneNumber, double balance){
         this.name = name;

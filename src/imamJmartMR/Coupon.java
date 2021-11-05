@@ -2,12 +2,11 @@ package imamJmartMR;
 
 public class Coupon extends Recognizable
 {
-    public int id;
-    public final String name;
     public final int code;
     public final double cut;
-    public final Type type;
     public final double minimum;
+    public final String name;
+    public final Type type;
     private boolean used;
     
     public enum Type{
@@ -15,7 +14,7 @@ public class Coupon extends Recognizable
         REBATE
     }
     
-    public Coupon(int id, String name, int code, Type type, double cut, double minimum){
+    public Coupon(String name, int code, Type type, double cut, double minimum){
         this.name = name;
         this.code = code;
         this.type = type;
@@ -23,22 +22,7 @@ public class Coupon extends Recognizable
         this.minimum = minimum;
         this.used = false;
     }
-    
-    public boolean isUsed(){
-        return used;
-    }
-    
-    public boolean canApply(Treasury priceTag){
-        
-        if(priceTag.getAdjustedPrice() >= minimum && used == false){
-           return true; 
-        }
-        
-        else{
-            return false;
-        }
-    }
-    
+
     public double apply(Treasury priceTag){
         
         used = true;
@@ -55,4 +39,19 @@ public class Coupon extends Recognizable
         return 0.0;
     }
 
+    public boolean canApply(Treasury priceTag){
+
+        if(priceTag.getAdjustedPrice() >= minimum && used == false){
+            return true;
+        }
+
+        else{
+            return false;
+        }
+    }
+
+
+    public boolean isUsed(){
+        return used;
+    }
 }
