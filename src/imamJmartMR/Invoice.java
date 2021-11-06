@@ -3,7 +3,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
 
-public class Invoice extends Recognizable
+public class Invoice extends Serializable
 {
     public int buyerId;
     public int complaintId;
