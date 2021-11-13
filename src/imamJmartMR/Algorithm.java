@@ -219,4 +219,26 @@ public class Algorithm {
         return null;
     }
 
+    public static <T extends Comparable> List<T> paginate (T[] array, int page, int pageSize, Predicate<T> pred) {
+
+        List<T> paginated = new ArrayList<T>();
+
+        if (pred.equals(true)) {
+
+            if(pageSize <= 0 || page <= 0) {
+                return paginated;
+            }
+
+            int index = (page - 1) * pageSize;
+            return null;
+        }
+
+        return Collections.emptyList();
+    }
+    public static <T extends Comparable> List<T> paginate (Iterable<T> iterable, int page, int pageSize, Predicate<T> pred) {
+        return null;
+    }
+    public static <T extends Comparable> List<T> paginate (Iterator<T> iterator, int page, int pageSize, Predicate<T> pred) {
+        return null;
+    }
 }

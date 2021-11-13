@@ -1,7 +1,11 @@
 package imamJmartMR;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class Payment extends Invoice
 {
+    public ArrayList<Record> history = new ArrayList<Record>();
     public Shipment shipment;
     public int productCount;
     
@@ -11,7 +15,19 @@ public class Payment extends Invoice
         this.shipment = shipment;
     }
 
-    public double getTotalPay() {
+    public double getTotalPay(Product product) {
         return 0.0;
+    }
+
+    public static class Record
+    {
+        public final Date date = new Date();
+        public String message;
+        public String status;
+
+        public Record (Status status, String message) {
+            date.getTime();
+            this.message = message;
+        }
     }
 }

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 import com.google.gson.*;
 
 public class Jmart {
@@ -69,14 +70,17 @@ public class Jmart {
 
     public static void main(String[] args) {
 
-
+        String path = "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\src\\imamJmartMR\\randomProductList.json";
+        List<Product> readed = new ArrayList<>();
+        readed = read(path);
+        for(Product search : readed) {
+            System.out.println(search.name);
+        }
     }
 
     private static List<Product> paginate (List<Product> list, int page, int pageSize, Predicate<Product> pred) {
 
-        int i = 0;
-
-        if (pred.predicate(list.get(i)) == true) {
+        if (pred.equals(true)) {
 
             if(pageSize <= 0 || page <= 0) {
                 throw new IllegalArgumentException("invalid page size: " + pageSize);
@@ -89,7 +93,7 @@ public class Jmart {
         return Collections.emptyList();
     }
 
-    public static List<Product> read (String filepath) throws FileNotFoundException {
+    public static List<Product> read (String filepath) {
 
         Gson gson = new Gson();
         List<Product> temp = new ArrayList<>();
