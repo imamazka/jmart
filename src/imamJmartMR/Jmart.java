@@ -1,4 +1,5 @@
 package imamJmartMR;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,6 +11,27 @@ import java.util.Scanner;
 import com.google.gson.*;
 
 public class Jmart {
+
+    public static long DELIVERED_LIMIT_MS = 1000;
+    public static long ON_DELIVERY_LIMIT_MS = 2000;
+    public static long ON_PROGRESS_LIMIT_MS = 3000;
+    public static long WAITING_CONF_LIMIT_MS = 4000;
+
+    public static void main(String[] args) {
+
+        String path = "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\src\\imamJmartMR\\randomProductList.json";
+        List<Product> readed = new ArrayList<>();
+        readed = read(path);
+        for(Product search : readed) {
+            System.out.println(search.name);
+        }
+    }
+
+    public static boolean paymentTimekeeper (Payment payment) {
+
+        //ObjectPoolThread<Payment> my = new ObjectPoolThread<Payment>(payment);
+        return false;
+    }
 
     public static List<Product> filterByAccountId (List<Product> list, int accountId, int page, int pageSize) {
         List<Product> filtered = new ArrayList<>();
@@ -65,16 +87,6 @@ public class Jmart {
         }
         else {
             return null;
-        }
-    }
-
-    public static void main(String[] args) {
-
-        String path = "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\src\\imamJmartMR\\randomProductList.json";
-        List<Product> readed = new ArrayList<>();
-        readed = read(path);
-        for(Product search : readed) {
-            System.out.println(search.name);
         }
     }
 
