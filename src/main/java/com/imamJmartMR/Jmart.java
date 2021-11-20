@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import com.google.gson.*;
+import com.imamJmartMR.dbjson.JsonDBEngine;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -22,7 +23,9 @@ public class Jmart {
 
     public static void main(String[] args) {
 
+        JsonDBEngine.Run(Jmart.class);
         SpringApplication.run(Jmart.class, args);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> JsonDBEngine.join()));
     }
 
     public static boolean paymentTimekeeper (Payment payment) {
