@@ -4,7 +4,6 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.Vector;
-
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 
@@ -30,7 +29,9 @@ public class JsonTable<T> extends Vector<T>
             if (loaded != null)
                 Collections.addAll(this, loaded);
         }
-        catch (FileNotFoundException e) {}
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void writeJson() throws IOException

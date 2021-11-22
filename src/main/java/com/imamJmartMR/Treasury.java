@@ -6,7 +6,12 @@ public class Treasury {
     public static final double BOTTOM_PRICE = 20000.0;
     public static final double BOTTOM_FEE = 1000.0;
     public static double discount, price;
-    
+
+    public Treasury(double price, double discount) {
+        this.price = price;
+        this.discount = discount;
+    }
+
     public static double getAdjustedPrice(){
         return getDiscountedPrice() + getAdminFee();
     }

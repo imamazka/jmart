@@ -16,6 +16,7 @@ public class ObjectPoolThread<T> extends Thread {
     }
 
     public ObjectPoolThread (Function<T,Boolean> routine) {
+        this.routine = routine;
         Thread t = new Thread();
         t.start();
     }

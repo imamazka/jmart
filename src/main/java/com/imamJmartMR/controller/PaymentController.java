@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentController implements BasicGetController<Payment>{
 
     public static final long DELIVERED_LIMIT_MS = 1000;
-    public static final long ON_DELIVERED_LIMIT_MS =  2000;
-    public static final long ON_PROGRESS_LIMIT_MS = 3000;
-    public static final long WAITING_CONF_LIMIT_MS = 4000;
-    public @JsonAutowired(value = Payment.class, filepath = "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\src\\main\\java\\com\\imamJmartMR\\json.txt") static JsonTable<Payment> paymentTable;
+    public static final long ON_DELIVERED_LIMIT_MS =  1000;
+    public static final long ON_PROGRESS_LIMIT_MS = 1000;
+    public static final long WAITING_CONF_LIMIT_MS = 1000;
+    public @JsonAutowired(value = Payment.class, filepath = "\\imamJmartMR\\randomPaymentList.json") static JsonTable<Payment> paymentTable;
     public static ObjectPoolThread<Payment> poolThread;
 
+    @Override
+    public JsonTable<Payment> getJsonTable () {
+        return paymentTable;
+    }
 
     @PostMapping("/{id}/accept")
     boolean accept (int id) {
@@ -33,11 +37,6 @@ public class PaymentController implements BasicGetController<Payment>{
 
     @PostMapping("/create")
     Payment create (int buyerId, int productId, int productCount, String shipmentAddress, byte shipmentPlan) {
-        return null;
-    }
-
-    @Override
-    public JsonTable<Payment> getJsonTable () {
         return null;
     }
 
