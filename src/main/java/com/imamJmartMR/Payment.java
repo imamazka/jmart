@@ -1,6 +1,7 @@
 package com.imamJmartMR;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Payment extends Invoice
@@ -16,17 +17,18 @@ public class Payment extends Invoice
     }
 
     public double getTotalPay(Product product) {
-        return 0.0;
+        return product.price;
     }
 
     public static class Record
     {
-        public final Date date = new Date();
+        public final Date date;
         public String message;
-        public String status;
+        public Status status;
 
         public Record (Status status, String message) {
-            date.getTime();
+            this.date = Calendar.getInstance().getTime();
+            this.status = status;
             this.message = message;
         }
     }

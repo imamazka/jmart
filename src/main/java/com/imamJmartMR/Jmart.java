@@ -4,11 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
-
 import com.google.gson.stream.JsonReader;
 import com.imamJmartMR.dbjson.JsonDBEngine;
 import org.springframework.boot.SpringApplication;
@@ -43,29 +40,28 @@ public class Jmart {
         long finish = System.currentTimeMillis();
         long elapsed = finish - start;
 
-
         switch (payment.history.get(payment.history.size() - 1).status) {
-            case "WAITING_CONFIRMATION" :
+            case WAITING_CONFIRMATION :
                 if (elapsed > WAITING_CONF_LIMIT_MS) {
-                    payment.history.get(payment.history.size() - 1).status = "FAILED";
+                    payment.history.get(payment.history.size() - 1).status = Invoice.Status.FAILED;
                     payment.history.get(payment.history.size() - 1).message = "failed";
                 }
                 break;
-            case "ON_PROGRESS" :
+            case ON_PROGRESS :
                 if (elapsed > ON_PROGRESS_LIMIT_MS) {
-                    payment.history.get(payment.history.size() - 1).status = "FAILED";
+                    payment.history.get(payment.history.size() - 1).status = Invoice.Status.FAILED;
                     payment.history.get(payment.history.size() - 1).message = "failed";
                 }
                 break;
-            case "ON_DELIVERY" :
+            case ON_DELIVERY :
                 if (elapsed > ON_DELIVERY_LIMIT_MS) {
-                    payment.history.get(payment.history.size() - 1).status = "FAILED";
+                    payment.history.get(payment.history.size() - 1).status = Invoice.Status.FAILED;
                     payment.history.get(payment.history.size() - 1).message = "failed";
                 }
                 break;
-            case "DELIVERED" :
+            case FINISHED :
                 if (elapsed > DELIVERED_LIMIT_MS) {
-                    payment.history.get(payment.history.size() - 1).status = "FAILED";
+                    payment.history.get(payment.history.size() - 1).status = Invoice.Status.FAILED;
                     payment.history.get(payment.history.size() - 1).message = "failed";
                 }
                 break;
@@ -74,71 +70,75 @@ public class Jmart {
     }
 
     public static List<Product> filterByAccountId (List<Product> list, int accountId, int page, int pageSize) {
+
         List<Product> filtered = new ArrayList<>();
         for (Product find : list) {
             if (find.id == accountId) {
                 filtered.add(find);
             }
         }
-        filtered = paginate(filtered, page, pageSize, null);
-        return filtered;
+        Predicate<Product> pred = new Predicate<Product>() {
+            @Override
+            public boolean predicate(Product arg) {
+                return true;
+            }
+        };
+        List<Product> paginated = paginate(filtered, page, pageSize, pred);
+        return paginated;
     }
 
     public static List<Product> filterByCategory(List<Product> list, ProductCategory category) {
+
         List<Product> filtered = new ArrayList<>();
         for (Product search : list) {
-            if (search.category.equals(category)) {
+            if (search.category.equals(category))
                 filtered.add(search);
-            }
         }
         return filtered;
     }
 
     public static List<Product> filterByName(List<Product> list, String search, int page, int pageSize) {
+
         List<Product> filtered = new ArrayList<>();
-        for (Product find : list) {
-            if (find.name.equals(search)) {
-                filtered.add(find);
-            }
+        for (Product get : list) {
+            if (get.name.equalsIgnoreCase(search))
+                filtered.add(get);
         }
-        filtered = paginate(filtered, page, pageSize, null);
-        return filtered;
+        Predicate<Product> pred = new Predicate<Product>() {
+            @Override
+            public boolean predicate(Product arg) {
+                return true;
+            }
+        };
+        List<Product> paginated = paginate(filtered, page, pageSize, pred);
+        return paginated;
     }
 
     public static List<Product> filterByPrice(List<Product> list, double minPrice, double maxPrice) {
 
-        List<Product> filtered = new ArrayList<>();
+        List<Product> filtered = new ArrayList<Product>();
 
         if (minPrice == 0.0) {
             for (Product search : list) {
-                if (search.price <= maxPrice) {
+                if (search.price <= maxPrice)
                     filtered.add(search);
-                }
             }
-            return filtered;
         }
         else if (maxPrice == 0.0) {
             for (Product search : list) {
-                if (search.price >= minPrice) {
+                if (search.price >= minPrice)
                     filtered.add(search);
-                }
             }
-            return filtered;
+
         }
-        else {
-            return null;
-        }
+        return filtered;
     }
 
     private static List<Product> paginate (List<Product> list, int page, int pageSize, Predicate<Product> pred) {
 
-        if (pred.equals(true)) {
-
-            int index = (page - 1) * pageSize;
-            return list.subList(index, Math.min(index + pageSize, list.size()));
-        }
-
-        return Collections.emptyList();
+        List<Product> paginated = new ArrayList<Product>();
+        paginated = Algorithm.paginate(list, page, pageSize, pred);
+        return paginated;
     }
 
     public static List<Product> read (String filepath) throws FileNotFoundException {

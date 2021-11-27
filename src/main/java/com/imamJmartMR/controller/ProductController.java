@@ -2,10 +2,7 @@ package com.imamJmartMR.controller;
 
 import com.imamJmartMR.*;
 import com.imamJmartMR.dbjson.JsonAutowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +14,7 @@ public class ProductController implements BasicGetController<Product>  {
     public @JsonAutowired(value = Product.class, filepath = "//imamJmartMR//randomProductList.json") static JsonTable<Product> productTable;
 
     @PostMapping("/create")
+    @ResponseBody
     Product create (int accountId, String name, int weight, boolean conditionUsed, double price, double discount, ProductCategory category, byte shipmentPlans) {
 
         for (Product get : productTable) {
@@ -32,11 +30,13 @@ public class ProductController implements BasicGetController<Product>  {
     }
 
     @Override
+    @ResponseBody
     public JsonTable<Product> getJsonTable () {
         return productTable;
     }
 
     @GetMapping("/{id}/store")
+    @ResponseBody
     List<Product> getProductByStore (int id, int page, int pageSize) {
 
         List<Product> temp = new ArrayList<Product>();
@@ -51,7 +51,8 @@ public class ProductController implements BasicGetController<Product>  {
     }
 
     @GetMapping("/getFiltered")
-    List<Product> getProductFiltered (int page, int pageSize, int accountId, String search, int minPrice, int maxPrice, ProductCategory category) {
+    @ResponseBody
+    List<Product> getProductFiltered (@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "1") int pageSize, int accountId, String search, int minPrice, int maxPrice, ProductCategory category) {
         return null;
     }
 }

@@ -4,9 +4,8 @@ import com.imamJmartMR.Account;
 import com.imamJmartMR.JsonTable;
 import com.imamJmartMR.Store;
 import com.imamJmartMR.dbjson.JsonAutowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -28,7 +27,8 @@ public class AccountController implements BasicGetController<Account> {
     }
 
     @PostMapping("/login")
-    Account login (String email, String password) {
+    @ResponseBody
+    Account login (@RequestParam String email, String password) {
         try{
             String generatedPassword = null;
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -50,6 +50,7 @@ public class AccountController implements BasicGetController<Account> {
     }
 
     @PostMapping("/register")
+    @ResponseBody
     Account register (String name, String email, String password) {
         if (!name.isBlank()) {
             Matcher matcher = REGEX_PATTERN_EMAIL.matcher(email);
@@ -79,6 +80,7 @@ public class AccountController implements BasicGetController<Account> {
     }
 
     @PostMapping("/{id}/registerStore")
+    @ResponseBody
     Store registerStore (int id, String name, String address, String phoneNumber) {
         for (Account temp : accountTable) {
             if(temp.name == name && temp.store == null) {
@@ -90,6 +92,7 @@ public class AccountController implements BasicGetController<Account> {
     }
 
     @PostMapping("/{id}/topUp")
+    @ResponseBody
     boolean topUp (int id, double balance) {
         for (Account temp : accountTable) {
             if(temp.id == id) {

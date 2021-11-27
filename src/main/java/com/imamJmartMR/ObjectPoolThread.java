@@ -33,15 +33,16 @@ public class ObjectPoolThread<T> extends Thread {
     public void run () {
         exitSignal = false;
         int i = 0;
-        while (exitSignal = false) {
-            if (routine.apply(objectPool.get(i)) == true)
-                i++;
-            if (objectPool.isEmpty() == true) {
-                exitSignal = true;
-                Thread.currentThread().getState();
+        try {
+            while (objectPool.isEmpty() == false) {
+                if (exitSignal == true)
+                    exit();
+                if (routine.apply(objectPool.get(i)) == true)
+                    i++;
             }
-        }
-        exit();
+            if (objectPool.isEmpty())
+                Thread.currentThread().wait();
+        } catch (InterruptedException e) {e.printStackTrace();}
     }
 
     public int size () {
