@@ -5,7 +5,6 @@ import com.imamJmartMR.JsonTable;
 import com.imamJmartMR.Store;
 import com.imamJmartMR.dbjson.JsonAutowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -15,11 +14,11 @@ import java.util.regex.Pattern;
 @RequestMapping("/account")
 public class AccountController implements BasicGetController<Account> {
 
-    public static final String REGEX_EMAIL = "^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-    public static final String REGEX_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
+    public static final String REGEX_EMAIL = "^\\w+([\\.&`~-]?\\w+)*@\\w+([\\.-]?\\w+)+$";
+    public static final String REGEX_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d][^-\\s]{7,}$";
     public static final Pattern REGEX_PATTERN_EMAIL = Pattern.compile(REGEX_EMAIL);
     public static final Pattern REGEX_PATTERN_PASSWORD = Pattern.compile(REGEX_PASSWORD);
-    public @JsonAutowired(value = Account.class, filepath = "\\imamJmartMR\\randomAccountList.json") static JsonTable<Account> accountTable;
+    public @JsonAutowired(value = Account.class, filepath = "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\AccountList.json") static JsonTable<Account> accountTable;
 
     @Override
     public JsonTable<Account> getJsonTable () {
@@ -27,10 +26,11 @@ public class AccountController implements BasicGetController<Account> {
     }
 
     @PostMapping("/login")
-    @ResponseBody
-    Account login (@RequestParam String email, String password) {
+    Account login (@RequestParam String email, @RequestParam String password) {
+        if (accountTable == null)
+            return null;
         try{
-            String generatedPassword = null;
+            String generatedPassword;
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(password.getBytes());
             byte[] bytes = md.digest();
@@ -50,8 +50,9 @@ public class AccountController implements BasicGetController<Account> {
     }
 
     @PostMapping("/register")
-    @ResponseBody
-    Account register (String name, String email, String password) {
+    Account register (@RequestParam String name, @RequestParam String email, @RequestParam String password) {
+        if (accountTable == null)
+            return null;
         if (!name.isBlank()) {
             Matcher matcher = REGEX_PATTERN_EMAIL.matcher(email);
             Matcher matcher2 = REGEX_PATTERN_PASSWORD.matcher(password);
@@ -70,7 +71,9 @@ public class AccountController implements BasicGetController<Account> {
                     for(int i = 0; i < bytes.length; i++)
                         sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
                     generatedPassword = sb.toString();
-                    accountTable.add(new Account(name, email, generatedPassword, 0.0));
+                    Account add = new Account(name, email, generatedPassword, 0.0);
+                    accountTable.add(add);
+                    return add;
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 }
@@ -80,8 +83,9 @@ public class AccountController implements BasicGetController<Account> {
     }
 
     @PostMapping("/{id}/registerStore")
-    @ResponseBody
-    Store registerStore (int id, String name, String address, String phoneNumber) {
+    Store registerStore (@PathVariable int id, @RequestParam String name, @RequestParam String address, @RequestParam String phoneNumber) {
+        if (accountTable == null)
+            return null;
         for (Account temp : accountTable) {
             if(temp.name == name && temp.store == null) {
                 temp.store = new Store(id, name, address, phoneNumber, 0.0);
@@ -92,8 +96,9 @@ public class AccountController implements BasicGetController<Account> {
     }
 
     @PostMapping("/{id}/topUp")
-    @ResponseBody
-    boolean topUp (int id, double balance) {
+    boolean topUp (@RequestParam int id, @RequestParam double balance) {
+        if (accountTable == null)
+            return false;
         for (Account temp : accountTable) {
             if(temp.id == id) {
                 temp.balance += balance;
@@ -103,3 +108,4 @@ public class AccountController implements BasicGetController<Account> {
         return false;
     }
 }
+

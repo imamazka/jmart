@@ -5,7 +5,6 @@ import com.imamJmartMR.JsonTable;
 import com.imamJmartMR.Treasury;
 import com.imamJmartMR.dbjson.JsonAutowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +12,17 @@ import java.util.List;
 @RequestMapping("/coupon")
 public class CouponController implements BasicGetController<Coupon> {
 
-    public @JsonAutowired(value = Coupon.class, filepath = "\\imamJmartMR\\randomCouponList.json") static JsonTable<Coupon> couponTable;
+    public @JsonAutowired(value = Coupon.class, filepath = "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\CouponList.json") static JsonTable<Coupon> couponTable;
+
+    @Override
+    public JsonTable<Coupon> getJsonTable () {
+        return couponTable;
+    }
 
     @GetMapping("/{id}/canApply")
-    @ResponseBody
-    boolean canApply (int id, double price, double discount) {
+    boolean canApply (@PathVariable int id, @RequestParam double price, @RequestParam double discount) {
+        if (couponTable == null)
+            return false;
         for (Coupon get : couponTable) {
             if (get.id == id)
                 return get.canApply(new Treasury(price, discount));
@@ -26,8 +31,10 @@ public class CouponController implements BasicGetController<Coupon> {
     }
 
     @GetMapping("/getAvailable")
-    @ResponseBody
     List<Coupon> getAvailable (@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "1") int pageSize) {
+
+        if (couponTable == null)
+            return null;
 
         List<Coupon> temp = new ArrayList<Coupon>();
 
@@ -39,15 +46,10 @@ public class CouponController implements BasicGetController<Coupon> {
         return temp.subList(index, Math.min(index + pageSize, temp.size()));
     }
 
-    @Override
-    @ResponseBody
-    public JsonTable<Coupon> getJsonTable () {
-        return couponTable;
-    }
-
     @GetMapping("/{id}/isUsed")
-    @ResponseBody
-    boolean isUsed (int id) {
+    boolean isUsed (@PathVariable int id) {
+        if (couponTable == null)
+            return false;
         for (Coupon get : couponTable) {
             if (get.id == id)
                 return get.isUsed();

@@ -1,12 +1,9 @@
 package com.imamJmartMR.controller;
 
-
 import com.imamJmartMR.*;
 import com.imamJmartMR.dbjson.JsonAutowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.function.Function;
 
 @RestController
@@ -17,17 +14,18 @@ public class PaymentController implements BasicGetController<Payment>{
     public static final long ON_DELIVERED_LIMIT_MS =  1000;
     public static final long ON_PROGRESS_LIMIT_MS = 1000;
     public static final long WAITING_CONF_LIMIT_MS = 1000;
-    public @JsonAutowired(value = Payment.class, filepath = "\\imamJmartMR\\randomPaymentList.json") static JsonTable<Payment> paymentTable;
+    public @JsonAutowired(value = Payment.class, filepath = "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\PaymentList.json") static JsonTable<Payment> paymentTable;
     public static ObjectPoolThread<Payment> poolThread = new ObjectPoolThread<Payment>(null);
 
     @Override
-    @ResponseBody
     public JsonTable<Payment> getJsonTable () {
         return paymentTable;
     }
 
     @PostMapping("/{id}/accept")
-    boolean accept (int id) {
+    boolean accept (@PathVariable int id) {
+        if (paymentTable == null)
+            return false;
         int i = 0;
         for (Payment get : paymentTable) {
             if (get.id == id && get.history.get(i).status == Invoice.Status.WAITING_CONFIRMATION) {
@@ -40,7 +38,9 @@ public class PaymentController implements BasicGetController<Payment>{
     }
 
     @PostMapping("/{id}/cancel")
-    boolean cancel (int id) {
+    boolean cancel (@PathVariable int id) {
+        if (paymentTable == null)
+            return false;
         int i = 0;
         for (Payment get : paymentTable) {
             if (get.id == id && get.history.get(i).status == Invoice.Status.WAITING_CONFIRMATION) {
@@ -52,8 +52,9 @@ public class PaymentController implements BasicGetController<Payment>{
     }
 
     @PostMapping("/create")
-    @ResponseBody
-    Payment create (int buyerId, int productId, int productCount, String shipmentAddress, byte shipmentPlan) {
+    Payment create (@RequestParam int buyerId, @RequestParam int productId, @RequestParam int productCount, @RequestParam String shipmentAddress, @RequestParam byte shipmentPlan) {
+        if (paymentTable == null)
+            return null;
         for (Account get1 : AccountController.accountTable) {
             if (get1.id == buyerId) {
                 for (Product get2 : ProductController.productTable) {
@@ -73,7 +74,9 @@ public class PaymentController implements BasicGetController<Payment>{
     }
 
     @PostMapping("/{id}/submit")
-    boolean submit (int id, String receipt) {
+    boolean submit (@PathVariable int id, @RequestParam String receipt) {
+        if (paymentTable == null)
+            return false;
         int i = 0;
         if (receipt.isBlank())
             return false;
