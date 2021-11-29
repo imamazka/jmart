@@ -18,7 +18,7 @@ public class AccountController implements BasicGetController<Account> {
     public static final String REGEX_PASSWORD = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d][^-\\s]{7,}$";
     public static final Pattern REGEX_PATTERN_EMAIL = Pattern.compile(REGEX_EMAIL);
     public static final Pattern REGEX_PATTERN_PASSWORD = Pattern.compile(REGEX_PASSWORD);
-    public @JsonAutowired(value = Account.class, filepath = "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\AccountList.json") static JsonTable<Account> accountTable;
+    public @JsonAutowired(value = Account.class, filepath = "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\src\\main\\resources\\AccountList.json") static JsonTable<Account> accountTable;
 
     @Override
     public JsonTable<Account> getJsonTable () {
@@ -29,19 +29,21 @@ public class AccountController implements BasicGetController<Account> {
     Account login (@RequestParam String email, @RequestParam String password) {
         if (accountTable == null)
             return null;
+        int i = 0;
         try{
             String generatedPassword;
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(password.getBytes());
             byte[] bytes = md.digest();
             StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < bytes.length; i++)
+            for(int j = 0; j < bytes.length; j++)
                 sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             generatedPassword = sb.toString();
             for (Account temp : accountTable) {
-                if(temp.email == email && temp.password == generatedPassword) {
-                    return temp;
+                if (temp.email.equals(email) && temp.password.equals(generatedPassword)) {
+                    return accountTable.get(i);
                 }
+                i++;
             }
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -73,7 +75,7 @@ public class AccountController implements BasicGetController<Account> {
                     generatedPassword = sb.toString();
                     Account add = new Account(name, email, generatedPassword, 0.0);
                     accountTable.add(add);
-                    return add;
+                    return accountTable.lastElement();
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 }
@@ -86,24 +88,28 @@ public class AccountController implements BasicGetController<Account> {
     Store registerStore (@PathVariable int id, @RequestParam String name, @RequestParam String address, @RequestParam String phoneNumber) {
         if (accountTable == null)
             return null;
+        int i = 0;
         for (Account temp : accountTable) {
-            if(temp.name == name && temp.store == null) {
-                temp.store = new Store(id, name, address, phoneNumber, 0.0);
-                return temp.store;
+            if(temp.id == id && temp.store == null) {
+                accountTable.get(i).store = new Store(id, name, address, phoneNumber, 0.0);
+                return accountTable.get(i).store;
             }
+            i++;
         }
         return null;
     }
 
     @PostMapping("/{id}/topUp")
-    boolean topUp (@RequestParam int id, @RequestParam double balance) {
+    boolean topUp (@PathVariable int id, @RequestParam double balance) {
         if (accountTable == null)
             return false;
+        int i = 0;
         for (Account temp : accountTable) {
             if(temp.id == id) {
-                temp.balance += balance;
+                accountTable.get(i).balance += balance;
                 return true;
             }
+            i++;
         }
         return false;
     }

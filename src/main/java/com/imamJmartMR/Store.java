@@ -19,7 +19,7 @@ public class Store
     }
 
     public String toString(){
-        return "name: PT Madju Merdeka\naddress: Jl. Kukusan\nphoneNumber: 628777xxxx";
+        return String.format("name: %s\naddress: %s\nphoneNumber: %s", name, address, phoneNumber);
     }
 
     public boolean validate() {

@@ -24,5 +24,6 @@ public class Product extends Serializable
     }
 
     public String toString(){
-        return "Name: Harry Potter\nWeight: 1\nconditionUsed: false\npriceTag = 21000.0\ncategory: BOOK\nrating: 0\nstoreId: 1";}
+        return String.format("Name: %s\nWeight: %d\nconditionUsed: %b\nprice: %f\ncategory: %s\nshipmentPlans: %d\naccountId: %d", name, weight, conditionUsed, price, category, shipmentPlans, accountId);
+    }
 }

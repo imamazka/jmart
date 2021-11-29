@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController implements BasicGetController<Product>  {
 
-    public @JsonAutowired(value = Product.class, filepath = "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\ProductList.json") static JsonTable<Product> productTable;
+    public @JsonAutowired(value = Product.class, filepath = "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\src\\main\\resources\\ProductList.json") static JsonTable<Product> productTable;
 
     @Override
     public JsonTable<Product> getJsonTable () {
