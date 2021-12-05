@@ -22,7 +22,7 @@ public class ProductController implements BasicGetController<Product>  {
         if (productTable == null)
             return null;
         for (Product get : productTable) {
-            if (get.id == accountId)
+            if (get.accountId == accountId)
                 return null;
             else {
                 Product temp = new Product(accountId, name, weight, conditionUsed, price, discount, category, shipmentPlans);
@@ -40,7 +40,7 @@ public class ProductController implements BasicGetController<Product>  {
         List<Product> temp = new ArrayList<Product>();
 
         for (Product get : productTable) {
-            if (get.id == id) {
+            if (get.accountId == id) {
                 temp.add(get);
             }
         }
@@ -60,40 +60,43 @@ public class ProductController implements BasicGetController<Product>  {
     {
         if (productTable == null)
             return null;
-        List<Product> temp = new ArrayList<Product>();
 
-        if (accountId != -1) {
+        List<Product> temp = new ArrayList<Product>();
+        int fromIndex = (page - 1) * pageSize;
+
+        if (page > 0 && pageSize > 0)
+            return productTable.subList(fromIndex, Math.min(fromIndex + pageSize, productTable.size()));
+        else if (accountId != 0) {
             for (Product get : productTable) {
-                if (get.id == accountId)
+                if (get.accountId == accountId)
                     temp.add(get);
             }
         }
-        if (search != null) {
+        else if (search != null) {
             for (Product get : productTable) {
                 if (get.name.equals(search))
                     temp.add(get);
             }
         }
-        if (minPrice != 0) {
+        else if (minPrice != 0) {
             for (Product get : productTable) {
                 if (get.price >= minPrice)
                     temp.add(get);
             }
         }
-        if (maxPrice != 0) {
+        else if (maxPrice != 0) {
             for (Product get : productTable) {
                 if (get.price <= maxPrice)
                     temp.add(get);
             }
         }
-        if (category != null) {
+        else if (category != null) {
             for (Product get : productTable) {
                 if (get.category == category)
                     temp.add(get);
             }
         }
 
-        int fromIndex = (page - 1) * pageSize;
-        return temp.subList(fromIndex, Math.min(fromIndex + pageSize, temp.size()));
+        return temp;
     }
 }

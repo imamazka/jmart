@@ -41,13 +41,10 @@ public class Coupon extends Serializable
 
     public boolean canApply(Treasury priceTag){
 
-        if(priceTag.getAdjustedPrice() >= minimum && used == false){
+        if (priceTag.getAdjustedPrice() >= minimum && !used)
             return true;
-        }
-
-        else{
+        else
             return false;
-        }
     }
 
 

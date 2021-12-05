@@ -6,19 +6,17 @@ import java.util.function.Function;
 public class ObjectPoolThread<T> extends Thread {
 
     private boolean exitSignal;
-    private Vector<T> objectPool;
+    private Vector<T> objectPool = new Vector<>();
     private Function<T,Boolean> routine;
 
     public ObjectPoolThread (String name, Function<T,Boolean> routine) {
+        super(name);
         this.routine = routine;
-        Thread t = new Thread(name);
-        t.start();
     }
 
     public ObjectPoolThread (Function<T,Boolean> routine) {
+        super();
         this.routine = routine;
-        Thread t = new Thread();
-        t.start();
     }
 
     public synchronized void add (T object) {
@@ -31,18 +29,22 @@ public class ObjectPoolThread<T> extends Thread {
 
     @Override
     public void run () {
-        exitSignal = false;
-        int i = 0;
         try {
-            while (objectPool.isEmpty() == false) {
-                if (exitSignal == true)
+            for (int i = 0; i < size(); i++) {
+                if (!routine.apply(objectPool.get(i))) {
+                    add(objectPool.get(i));
+                }
+                if (exitSignal) {
                     exit();
-                if (routine.apply(objectPool.get(i)) == true)
-                    i++;
+                    break;
+                }
+                objectPool.remove(i);
             }
             if (objectPool.isEmpty())
-                Thread.currentThread().wait();
-        } catch (InterruptedException e) {e.printStackTrace();}
+                synchronized (this) {Thread.currentThread().wait();}
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public int size () {

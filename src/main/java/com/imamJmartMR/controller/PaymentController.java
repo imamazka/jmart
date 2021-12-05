@@ -15,7 +15,7 @@ public class PaymentController implements BasicGetController<Payment>{
     public static final long ON_PROGRESS_LIMIT_MS = 1000;
     public static final long WAITING_CONF_LIMIT_MS = 1000;
     public @JsonAutowired(value = Payment.class, filepath = "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\src\\main\\resources\\PaymentList.json") static JsonTable<Payment> paymentTable;
-    public static ObjectPoolThread<Payment> poolThread = new ObjectPoolThread<Payment>(null);
+    public static ObjectPoolThread<Payment> poolThread = new ObjectPoolThread<Payment>(Jmart::paymentTimekeeper);
 
     @Override
     public JsonTable<Payment> getJsonTable () {
@@ -28,8 +28,8 @@ public class PaymentController implements BasicGetController<Payment>{
             return false;
         int i = 0;
         for (Payment get : paymentTable) {
-            if (get.id == id && get.history.get(i).status == Invoice.Status.WAITING_CONFIRMATION) {
-                get.history.add(new Payment.Record(Invoice.Status.ON_PROGRESS, "on progress"));
+            if (get.id == id && get.history.get(get.history.size()-1).status.equals(Invoice.Status.WAITING_CONFIRMATION)) {
+                paymentTable.get(i).history.add(new Payment.Record(Invoice.Status.ON_PROGRESS, "on progress"));
                 return true;
             }
             i++;
@@ -43,10 +43,11 @@ public class PaymentController implements BasicGetController<Payment>{
             return false;
         int i = 0;
         for (Payment get : paymentTable) {
-            if (get.id == id && get.history.get(i).status == Invoice.Status.WAITING_CONFIRMATION) {
-                get.history.add(new Payment.Record(Invoice.Status.CANCELLED, "cancelled"));
+            if (get.id == id && get.history.get(get.history.size()-1).status.equals(Invoice.Status.WAITING_CONFIRMATION)) {
+                paymentTable.get(i).history.add(new Payment.Record(Invoice.Status.CANCELLED, "cancelled"));
                 return true;
             }
+            i++;
         }
         return false;
     }
@@ -77,15 +78,16 @@ public class PaymentController implements BasicGetController<Payment>{
     boolean submit (@PathVariable int id, @RequestParam String receipt) {
         if (paymentTable == null)
             return false;
-        int i = 0;
         if (receipt.isBlank())
             return false;
+        int i = 0;
         for (Payment get : paymentTable) {
-            if (get.id == id && get.history.get(i).status == Invoice.Status.ON_PROGRESS) {
-                get.history.add(new Payment.Record(Invoice.Status.ON_DELIVERY, "on delivery"));
+            if (get.id == id && get.history.get(get.history.size()-1).status.equals(Invoice.Status.ON_PROGRESS)) {
+                paymentTable.get(i).shipment.receipt = receipt;
+                paymentTable.get(i).history.add(new Payment.Record(Invoice.Status.ON_DELIVERY, "on delivery"));
                 return true;
             }
-
+            i++;
         }
         return false;
     }

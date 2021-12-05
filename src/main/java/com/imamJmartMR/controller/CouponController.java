@@ -39,7 +39,7 @@ public class CouponController implements BasicGetController<Coupon> {
         List<Coupon> temp = new ArrayList<Coupon>();
 
         for (Coupon get : couponTable) {
-            if (get.isUsed() == false)
+            if (!get.isUsed())
                 temp.add(get);
         }
         int index = (page - 1) * pageSize;

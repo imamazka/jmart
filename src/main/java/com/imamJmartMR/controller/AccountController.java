@@ -37,7 +37,7 @@ public class AccountController implements BasicGetController<Account> {
             byte[] bytes = md.digest();
             StringBuilder sb = new StringBuilder();
             for(int j = 0; j < bytes.length; j++)
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+                sb.append(Integer.toString((bytes[j] & 0xff) + 0x100, 16).substring(1));
             generatedPassword = sb.toString();
             for (Account temp : accountTable) {
                 if (temp.email.equals(email) && temp.password.equals(generatedPassword)) {
@@ -65,7 +65,7 @@ public class AccountController implements BasicGetController<Account> {
                     }
                 }
                 try{
-                    String generatedPassword = null;
+                    String generatedPassword;
                     MessageDigest md = MessageDigest.getInstance("MD5");
                     md.update(password.getBytes());
                     byte[] bytes = md.digest();

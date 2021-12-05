@@ -13,7 +13,7 @@ public interface BasicGetController<T extends Serializable> {
     @GetMapping("/{id}")
     public default T getById (@PathVariable int id) {
         int i = 0;
-        while (getJsonTable().isEmpty() == false) {
+        while (!getJsonTable().isEmpty()) {
             T get = getJsonTable().get(i);
             if (get.id == id)
                 return get;

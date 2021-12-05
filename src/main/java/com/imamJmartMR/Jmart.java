@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.imamJmartMR.dbjson.JsonDBEngine;
 import org.springframework.boot.SpringApplication;
@@ -25,6 +26,27 @@ public class Jmart {
         SpringApplication.run(Jmart.class, args);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> JsonDBEngine.join()));
 
+
+        /*
+        try {
+            JsonTable<Payment> table = new JsonTable<>(Payment.class, "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\randomPaymentList.json");
+            ObjectPoolThread<Payment> paymentPool = new ObjectPoolThread<Payment>("Thread-PP", Jmart::paymentTimekeeper);
+            table.forEach(payment -> paymentPool.add(payment));
+            paymentPool.start();
+            while (paymentPool.size() != 0);
+            paymentPool.exit();
+            while (paymentPool.isAlive());
+            System.out.println("Thread exited successfully");
+            Gson gson = new Gson();
+            table.forEach(payment -> {
+                String history = gson.toJson(payment.history);
+                System.out.println(history);
+            });
+        }
+        catch (Throwable t) {
+            t.printStackTrace();
+        }
+         */
     }
 
     public static boolean paymentTimekeeper (Payment payment) {
@@ -34,9 +56,7 @@ public class Jmart {
                 return null;
             }
         };
-        ObjectPoolThread<Payment> my = new ObjectPoolThread<Payment>(pass);
         long start = System.currentTimeMillis();
-        my.start();
         long finish = System.currentTimeMillis();
         long elapsed = finish - start;
 
@@ -69,6 +89,7 @@ public class Jmart {
         return true;
     }
 
+    /*
     public static List<Product> filterByAccountId (List<Product> list, int accountId, int page, int pageSize) {
 
         List<Product> filtered = new ArrayList<>();
@@ -195,4 +216,6 @@ public class Jmart {
         }
         return temp;
     }
+
+     */
 }
