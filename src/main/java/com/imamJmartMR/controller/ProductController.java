@@ -5,6 +5,7 @@ import com.imamJmartMR.dbjson.JsonAutowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/product")
@@ -14,12 +15,14 @@ public class ProductController implements BasicGetController<Product>  {
 
     @Override
     public JsonTable<Product> getJsonTable () {
+        if (productTable == null || productTable.isEmpty())
+            return null;
         return productTable;
     }
 
     @PostMapping("/create")
     Product create (@RequestParam int accountId, @RequestParam String name, @RequestParam int weight, @RequestParam boolean conditionUsed, @RequestParam double price, @RequestParam double discount, @RequestParam ProductCategory category,@RequestParam byte shipmentPlans) {
-        if (productTable == null)
+        if (productTable == null || productTable.isEmpty())
             return null;
         for (Product get : productTable) {
             if (get.accountId == accountId)
@@ -35,9 +38,9 @@ public class ProductController implements BasicGetController<Product>  {
 
     @GetMapping("/{id}/store")
     List<Product> getProductByStore (@PathVariable int id, @RequestParam int page, @RequestParam int pageSize) {
-        if (productTable == null)
+        if (productTable == null || productTable.isEmpty())
             return null;
-        List<Product> temp = new ArrayList<Product>();
+        List<Product> temp = new ArrayList<>();
 
         for (Product get : productTable) {
             if (get.accountId == id) {
@@ -50,53 +53,50 @@ public class ProductController implements BasicGetController<Product>  {
 
     @GetMapping("/getFiltered")
     List<Product> getProductFiltered (
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "1") int pageSize,
-            @RequestParam(defaultValue = "-1") int accountId,
-            @RequestParam(defaultValue = "null") String search,
-            @RequestParam(defaultValue = "0") int minPrice,
-            @RequestParam(defaultValue = "0") int maxPrice,
-            @RequestParam(defaultValue = "null") ProductCategory category)
+            @RequestParam(value="page", defaultValue = "1") int page,
+            @RequestParam(value="pageSize", defaultValue = "1") int pageSize,
+            @RequestParam(value="accountId", defaultValue = "-1") int accountId,
+            @RequestParam(value="search", defaultValue = "") String search,
+            @RequestParam(value="minPrice", defaultValue = "0.0") double minPrice,
+            @RequestParam(value="maxPrice", defaultValue = "0.0") double maxPrice,
+            @RequestParam(value="category", defaultValue = "") ProductCategory category)
     {
-        if (productTable == null)
+        if (productTable == null || productTable.isEmpty())
             return null;
 
-        List<Product> temp = new ArrayList<Product>();
+        if (page <= 0)
+            page = 1;
+        else if (pageSize <= 0)
+            pageSize = 1;
+
+        List<Product> temp = productTable;
+        List<Product> filtered;
+
+        if (accountId != -1) {
+            filtered = temp.stream().filter(get -> get.accountId == accountId).collect(Collectors.toList());
+            temp = filtered;
+        }
+        if (!search.isBlank()) {
+            filtered = temp.stream().filter(get -> get.name.equals(search)).collect(Collectors.toList());
+            temp = filtered;
+        }
+        if (minPrice != 0.0) {
+            filtered = temp.stream().filter(get -> get.price >= minPrice).collect(Collectors.toList());
+            temp = filtered;
+        }
+        if (maxPrice != 0.0) {
+            filtered = temp.stream().filter(get -> get.price <= maxPrice).collect(Collectors.toList());
+            temp = filtered;
+        }
+        if (category != null) {
+            filtered = temp.stream().filter(get -> get.category == category).collect(Collectors.toList());
+            temp = filtered;
+        }
+
+        if (temp.isEmpty())
+            return null;
+
         int fromIndex = (page - 1) * pageSize;
-
-        if (page > 0 && pageSize > 0)
-            return productTable.subList(fromIndex, Math.min(fromIndex + pageSize, productTable.size()));
-        else if (accountId != 0) {
-            for (Product get : productTable) {
-                if (get.accountId == accountId)
-                    temp.add(get);
-            }
-        }
-        else if (search != null) {
-            for (Product get : productTable) {
-                if (get.name.equals(search))
-                    temp.add(get);
-            }
-        }
-        else if (minPrice != 0) {
-            for (Product get : productTable) {
-                if (get.price >= minPrice)
-                    temp.add(get);
-            }
-        }
-        else if (maxPrice != 0) {
-            for (Product get : productTable) {
-                if (get.price <= maxPrice)
-                    temp.add(get);
-            }
-        }
-        else if (category != null) {
-            for (Product get : productTable) {
-                if (get.category == category)
-                    temp.add(get);
-            }
-        }
-
-        return temp;
+        return temp.subList(fromIndex, Math.min(fromIndex + pageSize, temp.size()));
     }
 }

@@ -31,19 +31,18 @@ public class ObjectPoolThread<T> extends Thread {
     public void run () {
         try {
             for (int i = 0; i < size(); i++) {
-                if (!routine.apply(objectPool.get(i))) {
+                if (!routine.apply(objectPool.get(i)))
                     add(objectPool.get(i));
-                }
-                if (exitSignal) {
-                    exit();
-                    break;
-                }
-                objectPool.remove(i);
             }
+            exitSignal = true;
             if (objectPool.isEmpty())
                 synchronized (this) {Thread.currentThread().wait();}
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+        if (exitSignal) {
+            objectPool.clear();
+            exit();
         }
     }
 

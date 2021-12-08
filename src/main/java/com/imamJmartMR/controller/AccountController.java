@@ -27,7 +27,7 @@ public class AccountController implements BasicGetController<Account> {
 
     @PostMapping("/login")
     Account login (@RequestParam String email, @RequestParam String password) {
-        if (accountTable == null)
+        if (accountTable == null || accountTable.isEmpty())
             return null;
         int i = 0;
         try{
@@ -53,14 +53,14 @@ public class AccountController implements BasicGetController<Account> {
 
     @PostMapping("/register")
     Account register (@RequestParam String name, @RequestParam String email, @RequestParam String password) {
-        if (accountTable == null)
+        if (accountTable == null || accountTable.isEmpty())
             return null;
         if (!name.isBlank()) {
             Matcher matcher = REGEX_PATTERN_EMAIL.matcher(email);
             Matcher matcher2 = REGEX_PATTERN_PASSWORD.matcher(password);
-            if (matcher.find() && matcher2.find() ==  true) {
+            if (matcher.find() && matcher2.find()) {
                 for (Account temp : accountTable) {
-                    if(temp.email == email) {
+                    if(temp.email.equals(email)) {
                         return null;
                     }
                 }
@@ -86,7 +86,7 @@ public class AccountController implements BasicGetController<Account> {
 
     @PostMapping("/{id}/registerStore")
     Store registerStore (@PathVariable int id, @RequestParam String name, @RequestParam String address, @RequestParam String phoneNumber) {
-        if (accountTable == null)
+        if (accountTable == null || accountTable.isEmpty())
             return null;
         int i = 0;
         for (Account temp : accountTable) {
@@ -101,7 +101,7 @@ public class AccountController implements BasicGetController<Account> {
 
     @PostMapping("/{id}/topUp")
     boolean topUp (@PathVariable int id, @RequestParam double balance) {
-        if (accountTable == null)
+        if (accountTable == null || accountTable.isEmpty())
             return false;
         int i = 0;
         for (Account temp : accountTable) {
@@ -114,4 +114,3 @@ public class AccountController implements BasicGetController<Account> {
         return false;
     }
 }
-

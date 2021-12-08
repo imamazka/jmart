@@ -16,12 +16,14 @@ public class CouponController implements BasicGetController<Coupon> {
 
     @Override
     public JsonTable<Coupon> getJsonTable () {
+        if (couponTable == null || couponTable.isEmpty())
+            return null;
         return couponTable;
     }
 
     @GetMapping("/{id}/canApply")
     boolean canApply (@PathVariable int id, @RequestParam double price, @RequestParam double discount) {
-        if (couponTable == null)
+        if (couponTable == null || couponTable.isEmpty())
             return false;
         for (Coupon get : couponTable) {
             if (get.id == id)
@@ -33,10 +35,10 @@ public class CouponController implements BasicGetController<Coupon> {
     @GetMapping("/getAvailable")
     List<Coupon> getAvailable (@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "1") int pageSize) {
 
-        if (couponTable == null)
+        if (couponTable == null || couponTable.isEmpty())
             return null;
 
-        List<Coupon> temp = new ArrayList<Coupon>();
+        List<Coupon> temp = new ArrayList<>();
 
         for (Coupon get : couponTable) {
             if (!get.isUsed())

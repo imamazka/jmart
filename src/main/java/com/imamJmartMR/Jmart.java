@@ -1,13 +1,5 @@
 package com.imamJmartMR;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 import com.imamJmartMR.dbjson.JsonDBEngine;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,10 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Jmart {
 
-    public static long DELIVERED_LIMIT_MS = 1000;
-    public static long ON_DELIVERY_LIMIT_MS = 1000;
-    public static long ON_PROGRESS_LIMIT_MS = 1000;
-    public static long WAITING_CONF_LIMIT_MS = 1000;
+    /*
+    public static long DELIVERED_LIMIT_MS = 10000;
+    public static long ON_DELIVERY_LIMIT_MS = 10000;
+    public static long ON_PROGRESS_LIMIT_MS = 10000;
+    public static long WAITING_CONF_LIMIT_MS = 10000;
+     */
 
     public static void main(String[] args) {
 
@@ -26,70 +20,52 @@ public class Jmart {
         SpringApplication.run(Jmart.class, args);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> JsonDBEngine.join()));
 
-
-        /*
-        try {
-            JsonTable<Payment> table = new JsonTable<>(Payment.class, "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\randomPaymentList.json");
-            ObjectPoolThread<Payment> paymentPool = new ObjectPoolThread<Payment>("Thread-PP", Jmart::paymentTimekeeper);
-            table.forEach(payment -> paymentPool.add(payment));
-            paymentPool.start();
-            while (paymentPool.size() != 0);
-            paymentPool.exit();
-            while (paymentPool.isAlive());
-            System.out.println("Thread exited successfully");
-            Gson gson = new Gson();
-            table.forEach(payment -> {
-                String history = gson.toJson(payment.history);
-                System.out.println(history);
-            });
-        }
-        catch (Throwable t) {
-            t.printStackTrace();
-        }
-         */
     }
 
+    /*
     public static boolean paymentTimekeeper (Payment payment) {
+
+        if (payment.history.isEmpty())
+            return true;
+
+        long start = System.currentTimeMillis();
         Function<Payment,Boolean> pass = new Function<Payment, Boolean>() {
             @Override
             public Boolean apply(Payment payment) {
                 return null;
             }
         };
-        long start = System.currentTimeMillis();
         long finish = System.currentTimeMillis();
         long elapsed = finish - start;
 
         switch (payment.history.get(payment.history.size() - 1).status) {
-            case WAITING_CONFIRMATION :
+            case WAITING_CONFIRMATION:
                 if (elapsed > WAITING_CONF_LIMIT_MS) {
-                    payment.history.get(payment.history.size() - 1).status = Invoice.Status.FAILED;
-                    payment.history.get(payment.history.size() - 1).message = "failed";
+                    payment.history.add(new Payment.Record(FAILED, "failed"));
                 }
                 break;
-            case ON_PROGRESS :
+            case ON_PROGRESS:
                 if (elapsed > ON_PROGRESS_LIMIT_MS) {
-                    payment.history.get(payment.history.size() - 1).status = Invoice.Status.FAILED;
-                    payment.history.get(payment.history.size() - 1).message = "failed";
+                    payment.history.add(new Payment.Record(FAILED, "failed"));
                 }
                 break;
-            case ON_DELIVERY :
+            case ON_DELIVERY:
                 if (elapsed > ON_DELIVERY_LIMIT_MS) {
-                    payment.history.get(payment.history.size() - 1).status = Invoice.Status.FAILED;
-                    payment.history.get(payment.history.size() - 1).message = "failed";
+                    payment.history.add(new Payment.Record(FAILED, "failed"));
                 }
                 break;
-            case FINISHED :
+            case FINISHED:
                 if (elapsed > DELIVERED_LIMIT_MS) {
-                    payment.history.get(payment.history.size() - 1).status = Invoice.Status.FAILED;
-                    payment.history.get(payment.history.size() - 1).message = "failed";
+                    payment.history.add(new Payment.Record(FAILED, "failed"));
                 }
                 break;
+            default:
+                return true;
         }
         return true;
     }
 
-    /*
+
     public static List<Product> filterByAccountId (List<Product> list, int accountId, int page, int pageSize) {
 
         List<Product> filtered = new ArrayList<>();

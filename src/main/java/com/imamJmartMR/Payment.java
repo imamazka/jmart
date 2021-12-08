@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Payment extends Invoice
 {
-    public ArrayList<Record> history = new ArrayList<Record>();
+    public ArrayList<Record> history = new ArrayList<>();
     public Shipment shipment;
     public int productCount;
     
