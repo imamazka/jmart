@@ -1,5 +1,11 @@
 package com.imamJmartMR;
 
+/**
+ * Handle the cost calculation of an order.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 public class Treasury {
     
     public static final double COMMISSION_MULTIPLIER = 0.05;

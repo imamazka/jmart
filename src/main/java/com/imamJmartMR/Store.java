@@ -2,6 +2,12 @@ package com.imamJmartMR;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Details of a Jmart store.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 public class Store
 {
 	public static final String REGEX_PHONE = "^\\\\d{9,12}$";

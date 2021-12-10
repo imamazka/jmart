@@ -4,9 +4,15 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * Details of shipment for an ordered products.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 public class Shipment
 {
-    public final SimpleDateFormat ESTIMATION_FORMAT = new SimpleDateFormat("EE MMMMM dd yyyy");
+    public static final SimpleDateFormat ESTIMATION_FORMAT = new SimpleDateFormat("EE MMMMM dd yyyy");
     public static final Plan INSTANT = new Plan((byte)(1 << 0));
     public static final Plan SAME_DAY = new Plan((byte)(1 << 1));
     public static final Plan NEXT_DAY = new Plan((byte)(1 << 2));

@@ -1,5 +1,11 @@
 package com.imamJmartMR;
 
+/**
+ * Types of category of a product.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 public enum ProductCategory {
     BOOK,
     KITCHEN,

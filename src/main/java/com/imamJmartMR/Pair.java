@@ -1,5 +1,12 @@
 package com.imamJmartMR;
 
+/**
+ * Pairing two generics parameter.
+ * @param <T>
+ * @param <U>
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
 public class Pair<T, U> {
 
     public T first;

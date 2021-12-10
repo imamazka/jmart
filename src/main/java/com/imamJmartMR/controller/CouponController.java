@@ -50,7 +50,7 @@ public class CouponController implements BasicGetController<Coupon> {
 
     @GetMapping("/{id}/isUsed")
     boolean isUsed (@PathVariable int id) {
-        if (couponTable == null)
+        if (couponTable == null || couponTable.isEmpty())
             return false;
         for (Coupon get : couponTable) {
             if (get.id == id)

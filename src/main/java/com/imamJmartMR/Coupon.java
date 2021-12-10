@@ -1,5 +1,11 @@
 package com.imamJmartMR;
 
+/**
+ * This coupon class can be used by user for applying a coupon when ordering a product.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 public class Coupon extends Serializable
 {
     public final int code;

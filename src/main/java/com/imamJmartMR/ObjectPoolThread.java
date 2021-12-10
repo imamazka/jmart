@@ -3,6 +3,13 @@ package com.imamJmartMR;
 import java.util.Vector;
 import java.util.function.Function;
 
+/**
+ * A class that implements multithreading to handle, and process user large data.
+ * @param <T>
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 public class ObjectPoolThread<T> extends Thread {
 
     private boolean exitSignal;
@@ -41,7 +48,6 @@ public class ObjectPoolThread<T> extends Thread {
             e.printStackTrace();
         }
         if (exitSignal) {
-            objectPool.clear();
             exit();
         }
     }

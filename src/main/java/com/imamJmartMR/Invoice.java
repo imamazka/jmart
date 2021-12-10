@@ -3,6 +3,12 @@ package com.imamJmartMR;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Store details about user order, including status and rating of a product.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 public abstract class Invoice extends Serializable
 {
     public int buyerId;
@@ -26,6 +32,7 @@ public abstract class Invoice extends Serializable
         CANCELLED,
         ON_PROGRESS,
         ON_DELIVERY,
+        DELIVERED,
         COMPLAINT,
         FINISHED,
         FAILED

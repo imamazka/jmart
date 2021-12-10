@@ -22,7 +22,7 @@ public class ProductController implements BasicGetController<Product>  {
 
     @PostMapping("/create")
     Product create (@RequestParam int accountId, @RequestParam String name, @RequestParam int weight, @RequestParam boolean conditionUsed, @RequestParam double price, @RequestParam double discount, @RequestParam ProductCategory category,@RequestParam byte shipmentPlans) {
-        if (productTable == null || productTable.isEmpty())
+        if (productTable == null)
             return null;
         for (Product get : productTable) {
             if (get.accountId == accountId)
@@ -37,7 +37,7 @@ public class ProductController implements BasicGetController<Product>  {
     }
 
     @GetMapping("/{id}/store")
-    List<Product> getProductByStore (@PathVariable int id, @RequestParam int page, @RequestParam int pageSize) {
+    List<Product> getProductByStore (@PathVariable int id, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int pageSize) {
         if (productTable == null || productTable.isEmpty())
             return null;
         List<Product> temp = new ArrayList<>();
@@ -54,7 +54,7 @@ public class ProductController implements BasicGetController<Product>  {
     @GetMapping("/getFiltered")
     List<Product> getProductFiltered (
             @RequestParam(value="page", defaultValue = "1") int page,
-            @RequestParam(value="pageSize", defaultValue = "1") int pageSize,
+            @RequestParam(value="pageSize", defaultValue = "5") int pageSize,
             @RequestParam(value="accountId", defaultValue = "-1") int accountId,
             @RequestParam(value="search", defaultValue = "") String search,
             @RequestParam(value="minPrice", defaultValue = "0.0") double minPrice,

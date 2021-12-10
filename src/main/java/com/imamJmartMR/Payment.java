@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Store user order details, and record the status of order.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 public class Payment extends Invoice
 {
     public ArrayList<Record> history = new ArrayList<>();

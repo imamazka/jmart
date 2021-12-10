@@ -1,5 +1,11 @@
 package com.imamJmartMR;
 
+/**
+ * Store ratings from user for a product.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 public class ProductRating{
     
     private long total;

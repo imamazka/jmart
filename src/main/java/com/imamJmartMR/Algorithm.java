@@ -3,6 +3,12 @@ package com.imamJmartMR;
 import java.lang.*;
 import java.util.*;
 
+/**
+ * This base class used for all complex logical usage especially involving a list of data.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 public class Algorithm {
 
     private Algorithm(){}

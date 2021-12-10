@@ -1,5 +1,11 @@
 package com.imamJmartMR;
 
+/**
+ * This class store details about a product.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 public class Product extends Serializable
 {
     

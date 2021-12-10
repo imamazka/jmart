@@ -3,6 +3,12 @@ package com.imamJmartMR;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class used to store the details about user account.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 public class Account extends Serializable
 {
     public static final String REGEX_EMAIL = "^\\w+([\\.&`~-]?\\w+)*@\\w+([\\.-]?\\w+)+$";

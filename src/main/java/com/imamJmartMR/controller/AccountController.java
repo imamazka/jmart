@@ -27,7 +27,7 @@ public class AccountController implements BasicGetController<Account> {
 
     @PostMapping("/login")
     Account login (@RequestParam String email, @RequestParam String password) {
-        if (accountTable == null || accountTable.isEmpty())
+        if (accountTable == null)
             return null;
         int i = 0;
         try{

@@ -1,5 +1,11 @@
 package com.imamJmartMR;
 
+/**
+ * Used to top up a user phone number.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 public class PhoneTopUp extends Invoice{
 
     public String phoneNumber;
