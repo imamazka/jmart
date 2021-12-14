@@ -24,14 +24,15 @@ public class ProductController implements BasicGetController<Product>  {
     Product create (@RequestParam int accountId, @RequestParam String name, @RequestParam int weight, @RequestParam boolean conditionUsed, @RequestParam double price, @RequestParam double discount, @RequestParam ProductCategory category,@RequestParam byte shipmentPlans) {
         if (productTable == null)
             return null;
-        for (Product get : productTable) {
-            if (get.accountId == accountId)
-                return null;
-            else {
+
+        for (Account get : AccountController.accountTable) {
+            if (get.id == accountId && get.store != null) {
                 Product temp = new Product(accountId, name, weight, conditionUsed, price, discount, category, shipmentPlans);
                 productTable.add(temp);
                 return temp;
             }
+            else
+                return null;
         }
         return null;
     }
@@ -59,6 +60,8 @@ public class ProductController implements BasicGetController<Product>  {
             @RequestParam(value="search", defaultValue = "") String search,
             @RequestParam(value="minPrice", defaultValue = "0.0") double minPrice,
             @RequestParam(value="maxPrice", defaultValue = "0.0") double maxPrice,
+            @RequestParam(value="newCondition", defaultValue = "false") boolean newCondition,
+            @RequestParam(value="usedCondition", defaultValue = "false") boolean usedCondition,
             @RequestParam(value="category", defaultValue = "") ProductCategory category)
     {
         if (productTable == null || productTable.isEmpty())
@@ -87,6 +90,16 @@ public class ProductController implements BasicGetController<Product>  {
         if (maxPrice != 0.0) {
             filtered = temp.stream().filter(get -> get.price <= maxPrice).collect(Collectors.toList());
             temp = filtered;
+        }
+        if (newCondition || usedCondition) {
+            if (newCondition) {
+                filtered = temp.stream().filter(get -> !get.conditionUsed).collect(Collectors.toList());
+                temp = filtered;
+            }
+            else if (usedCondition) {
+                filtered = temp.stream().filter(get -> get.conditionUsed).collect(Collectors.toList());
+                temp = filtered;
+            }
         }
         if (category != null) {
             filtered = temp.stream().filter(get -> get.category == category).collect(Collectors.toList());
