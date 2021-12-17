@@ -10,6 +10,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Controller for Account data type.
+ * Handle incoming HTTP request and send response back to the caller.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 @RestController
 @RequestMapping("/account")
 public class AccountController implements BasicGetController<Account> {
@@ -25,6 +32,12 @@ public class AccountController implements BasicGetController<Account> {
         return accountTable;
     }
 
+    /**
+     *
+     * @param email user email used for login
+     * @param password entered password for login
+     * @return account of success logged user
+     */
     @PostMapping("/login")
     Account login (@RequestParam String email, @RequestParam String password) {
         if (accountTable == null)
@@ -51,6 +64,14 @@ public class AccountController implements BasicGetController<Account> {
         return null;
     }
 
+
+    /**
+     *
+     * @param name new user name that will registered
+     * @param email new user email
+     * @param password new user password
+     * @return new registered account details
+     */
     @PostMapping("/register")
     Account register (@RequestParam String name, @RequestParam String email, @RequestParam String password) {
         if (accountTable == null || accountTable.isEmpty())
@@ -84,6 +105,14 @@ public class AccountController implements BasicGetController<Account> {
         return null;
     }
 
+    /**
+     *
+     * @param id user id that will register a store
+     * @param name name of the new store
+     * @param address address of the new store
+     * @param phoneNumber phone number of the new store
+     * @return new registered store details
+     */
     @PostMapping("/{id}/registerStore")
     Store registerStore (@PathVariable int id, @RequestParam String name, @RequestParam String address, @RequestParam String phoneNumber) {
         if (accountTable == null || accountTable.isEmpty())
@@ -99,6 +128,12 @@ public class AccountController implements BasicGetController<Account> {
         return null;
     }
 
+    /**
+     *
+     * @param id user id
+     * @param balance balance of the top up
+     * @return condition of the top up
+     */
     @PostMapping("/{id}/topUp")
     boolean topUp (@PathVariable int id, @RequestParam double balance) {
         if (accountTable == null || accountTable.isEmpty())

@@ -5,6 +5,13 @@ import com.imamJmartMR.Serializable;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+/**
+ * Interface for controller.
+ * Handle incoming HTTP request and send response back to the caller.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 @RestController
 public interface BasicGetController<T extends Serializable> {
 

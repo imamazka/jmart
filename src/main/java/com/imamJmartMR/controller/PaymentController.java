@@ -10,6 +10,13 @@ import java.util.function.Function;
 
 import static com.imamJmartMR.Invoice.Status.*;
 
+/**
+ * Controller for all incoming and outcome of a transaction.
+ * Handle incoming HTTP request and send response back to the caller.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 @RestController
 @RequestMapping("/payment")
 public class PaymentController implements BasicGetController<Payment>{
@@ -29,6 +36,11 @@ public class PaymentController implements BasicGetController<Payment>{
         return paymentTable;
     }
 
+    /**
+     *
+     * @param id store owner id that recieved order
+     * @return condition of the accepted order
+     */
     @PostMapping("/{id}/accept")
     boolean accept (@PathVariable int id) {
         if (paymentTable == null)
@@ -44,6 +56,11 @@ public class PaymentController implements BasicGetController<Payment>{
         return false;
     }
 
+    /**
+     *
+     * @param id id of the store owner
+     * @return condition of the rejected order
+     */
     @PostMapping("/{id}/cancel")
     boolean cancel (@PathVariable int id) {
         if (paymentTable == null)
@@ -59,6 +76,15 @@ public class PaymentController implements BasicGetController<Payment>{
         return false;
     }
 
+    /**
+     *
+     * @param buyerId buyerId
+     * @param productId id of the product
+     * @param productCount amounts of the product
+     * @param shipmentAddress address of the buyer
+     * @param shipmentPlan plan of shipping
+     * @return new created order details
+     */
     @PostMapping("/create")
     Payment create (@RequestParam int buyerId, @RequestParam int productId, @RequestParam int productCount, @RequestParam String shipmentAddress, @RequestParam byte shipmentPlan) {
         if (paymentTable == null)
@@ -83,6 +109,13 @@ public class PaymentController implements BasicGetController<Payment>{
         return null;
     }
 
+    /**
+     *
+     * @param id id of the store owner
+     * @param receipt new receipt of the order
+     * @return condition of the receipt submit
+     */
+
     @PostMapping("/{id}/submit")
     boolean submit (@PathVariable int id, @RequestParam String receipt) {
         if (paymentTable == null)
@@ -102,6 +135,11 @@ public class PaymentController implements BasicGetController<Payment>{
         return false;
     }
 
+    /**
+     * Timekeeper for the order
+     * @param payment details of the order
+     * @return condition of the proccessed order
+     */
     private static boolean timekeeper (Payment payment) {
         if (payment.history.isEmpty())
             return true;

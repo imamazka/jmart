@@ -8,6 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller for Coupon.
+ * Handle incoming HTTP request and send response back to the caller.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 @RestController
 @RequestMapping("/coupon")
 public class CouponController implements BasicGetController<Coupon> {

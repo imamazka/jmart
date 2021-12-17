@@ -7,6 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Controller for a product.
+ * Handle incoming HTTP request and send response back to the caller.
+ * @author Imam Azka Ramadhan Aditia
+ * @version 1.0
+ */
+
 @RestController
 @RequestMapping("/product")
 public class ProductController implements BasicGetController<Product>  {
@@ -31,8 +38,6 @@ public class ProductController implements BasicGetController<Product>  {
                 productTable.add(temp);
                 return temp;
             }
-            else
-                return null;
         }
         return null;
     }
@@ -80,7 +85,7 @@ public class ProductController implements BasicGetController<Product>  {
             temp = filtered;
         }
         if (!search.isBlank()) {
-            filtered = temp.stream().filter(get -> get.name.equals(search)).collect(Collectors.toList());
+            filtered = temp.stream().filter(get -> get.name.equalsIgnoreCase(search)).collect(Collectors.toList());
             temp = filtered;
         }
         if (minPrice != 0.0) {
