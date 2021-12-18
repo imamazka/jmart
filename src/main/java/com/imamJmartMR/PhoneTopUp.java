@@ -14,6 +14,7 @@ public class PhoneTopUp extends Invoice{
     public PhoneTopUp (int buyerId, int productId, String phoneNumber) {
         super(buyerId, productId);
         this.phoneNumber = phoneNumber;
+        this.status = "Succeed";
     }
 
     @Override

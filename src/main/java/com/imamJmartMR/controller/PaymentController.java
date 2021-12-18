@@ -4,8 +4,10 @@ import com.imamJmartMR.*;
 import com.imamJmartMR.dbjson.JsonAutowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Function;
 
 import static com.imamJmartMR.Invoice.Status.*;
@@ -21,10 +23,10 @@ import static com.imamJmartMR.Invoice.Status.*;
 @RequestMapping("/payment")
 public class PaymentController implements BasicGetController<Payment>{
 
-    public static final long DELIVERED_LIMIT_MS = 1000000;
-    public static final long ON_DELIVERY_LIMIT_MS = 1000000;
-    public static final long ON_PROGRESS_LIMIT_MS = 1000000000;
-    public static final long WAITING_CONF_LIMIT_MS = 1000000000;
+    public static final long DELIVERED_LIMIT_MS = 1000000; //15 minutes
+    public static final long ON_DELIVERY_LIMIT_MS = 10000000; //3 hours limit
+    public static final long ON_PROGRESS_LIMIT_MS = 1000000000; //11 days limit
+    public static final long WAITING_CONF_LIMIT_MS = 1000000000; //11 days limit
     public @JsonAutowired(value = Payment.class, filepath = "E:\\Imam Azka\\Semester 3\\Java\\Jmart\\src\\main\\resources\\PaymentList.json") static JsonTable<Payment> paymentTable;
     public static ObjectPoolThread<Payment> poolThread = new ObjectPoolThread<>("Payment Thread", PaymentController::timekeeper);
     static {
@@ -38,7 +40,42 @@ public class PaymentController implements BasicGetController<Payment>{
 
     /**
      *
-     * @param id store owner id that recieved order
+     * @return list of order with waiting confirmation status.
+     */
+    @GetMapping("/getOrder")
+    List<Payment> getOrder() {
+        if (paymentTable == null || paymentTable.isEmpty())
+            return null;
+        List<Payment> temp = new ArrayList<>();
+        for (Payment get : paymentTable) {
+            if (get.history.size() == 0)
+                get.history.get(0).status.equals(WAITING_CONFIRMATION);
+            else if (get.history.get(get.history.size() - 1).status.equals(Invoice.Status.WAITING_CONFIRMATION))
+                temp.add(get);
+        }
+        return temp;
+    }
+
+    /**
+     *
+     * @param buyerId id of the buyer
+     * @return all order details of the buyer
+     */
+    @GetMapping("/{buyerId}/myOrder")
+    List<Payment> myOrder(@PathVariable int buyerId) {
+        if (paymentTable == null || paymentTable.isEmpty())
+            return null;
+        List<Payment> temp = new ArrayList<>();
+        for (Payment get : paymentTable) {
+            if (get.buyerId == buyerId)
+                temp.add(get);
+        }
+        return temp;
+    }
+
+    /**
+     *
+     * @param id id of the order
      * @return condition of the accepted order
      */
     @PostMapping("/{id}/accept")
@@ -58,7 +95,7 @@ public class PaymentController implements BasicGetController<Payment>{
 
     /**
      *
-     * @param id id of the store owner
+     * @param id id of the order
      * @return condition of the rejected order
      */
     @PostMapping("/{id}/cancel")
@@ -111,7 +148,7 @@ public class PaymentController implements BasicGetController<Payment>{
 
     /**
      *
-     * @param id id of the store owner
+     * @param id id of the order
      * @param receipt new receipt of the order
      * @return condition of the receipt submit
      */
