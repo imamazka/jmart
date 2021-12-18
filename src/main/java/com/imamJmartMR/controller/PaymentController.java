@@ -43,15 +43,25 @@ public class PaymentController implements BasicGetController<Payment>{
      * @return list of order with waiting confirmation status.
      */
     @GetMapping("/getOrder")
-    List<Payment> getOrder() {
+    List<Payment> getOrder(@RequestParam String status) {
         if (paymentTable == null || paymentTable.isEmpty())
             return null;
         List<Payment> temp = new ArrayList<>();
-        for (Payment get : paymentTable) {
-            if (get.history.size() == 0)
-                get.history.get(0).status.equals(WAITING_CONFIRMATION);
-            else if (get.history.get(get.history.size() - 1).status.equals(Invoice.Status.WAITING_CONFIRMATION))
-                temp.add(get);
+        if (status.equals(String.valueOf(WAITING_CONFIRMATION))) {
+            for (Payment get : paymentTable) {
+                if (get.history.size() == 0)
+                    get.history.get(0).status.equals(WAITING_CONFIRMATION);
+                else if (get.history.get(get.history.size() - 1).status.equals(WAITING_CONFIRMATION))
+                    temp.add(get);
+            }
+        }
+        else if (status.equals(String.valueOf(ON_PROGRESS))) {
+            for (Payment get : paymentTable) {
+                if (get.history.size() == 0)
+                    get.history.get(0).status.equals(ON_PROGRESS);
+                else if (get.history.get(get.history.size() - 1).status.equals(ON_PROGRESS))
+                    temp.add(get);
+            }
         }
         return temp;
     }
