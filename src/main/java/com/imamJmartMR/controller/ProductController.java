@@ -27,6 +27,18 @@ public class ProductController implements BasicGetController<Product>  {
         return productTable;
     }
 
+    /**
+     * Create a new product
+     * @param accountId id of the store owner
+     * @param name name of the product
+     * @param weight wight of the product
+     * @param conditionUsed condition of the product
+     * @param price price of the product
+     * @param discount discount for the product
+     * @param category category of the product
+     * @param shipmentPlans plans of shipping of the product
+     * @return New created product details
+     */
     @PostMapping("/create")
     Product create (@RequestParam int accountId, @RequestParam String name, @RequestParam int weight, @RequestParam boolean conditionUsed, @RequestParam double price, @RequestParam double discount, @RequestParam ProductCategory category,@RequestParam byte shipmentPlans) {
         if (productTable == null)
@@ -42,6 +54,13 @@ public class ProductController implements BasicGetController<Product>  {
         return null;
     }
 
+    /**
+     * Get product of selected store
+     * @param id id of the store
+     * @param page selected page
+     * @param pageSize size of each page
+     * @return List of store owned product
+     */
     @GetMapping("/{id}/store")
     List<Product> getProductByStore (@PathVariable int id, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int pageSize) {
         if (productTable == null || productTable.isEmpty())
@@ -57,6 +76,19 @@ public class ProductController implements BasicGetController<Product>  {
         return temp.subList(index, Math.min(index + pageSize, temp.size()));
     }
 
+    /**
+     * Filter the product list
+     * @param page selected page
+     * @param pageSize size of each page
+     * @param accountId id of the store
+     * @param search name of the product
+     * @param minPrice minimum price of the product
+     * @param maxPrice maximum price of the product
+     * @param newCondition condition of the product is new
+     * @param usedCondition condition of the product is used
+     * @param category category of the product
+     * @return List of the filtered product
+     */
     @GetMapping("/getFiltered")
     List<Product> getProductFiltered (
             @RequestParam(value="page", defaultValue = "1") int page,

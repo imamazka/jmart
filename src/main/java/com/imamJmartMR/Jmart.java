@@ -13,6 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Jmart {
 
+    /**
+     * Main class
+     * @param args
+     */
     public static void main(String[] args) {
 
         JsonDBEngine.Run(Jmart.class);

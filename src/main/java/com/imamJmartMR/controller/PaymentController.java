@@ -39,8 +39,8 @@ public class PaymentController implements BasicGetController<Payment>{
     }
 
     /**
-     *
-     * @return list of order with waiting confirmation status.
+     * Get list of order for the store owner
+     * @return list of order for the store owner.
      */
     @GetMapping("/getOrder")
     List<Payment> getOrder(@RequestParam String status) {
@@ -67,9 +67,9 @@ public class PaymentController implements BasicGetController<Payment>{
     }
 
     /**
-     *
+     * Get all order history from buyer
      * @param buyerId id of the buyer
-     * @return all order details of the buyer
+     * @return All order details of the buyer
      */
     @GetMapping("/{buyerId}/myOrder")
     List<Payment> myOrder(@PathVariable int buyerId) {
@@ -84,7 +84,7 @@ public class PaymentController implements BasicGetController<Payment>{
     }
 
     /**
-     *
+     * Accept the waiting confirmation order
      * @param id id of the order
      * @return condition of the accepted order
      */
@@ -104,7 +104,7 @@ public class PaymentController implements BasicGetController<Payment>{
     }
 
     /**
-     *
+     * Decline of the waiting confirmation order
      * @param id id of the order
      * @return condition of the rejected order
      */
@@ -124,7 +124,7 @@ public class PaymentController implements BasicGetController<Payment>{
     }
 
     /**
-     *
+     * Create new order
      * @param buyerId buyerId
      * @param productId id of the product
      * @param productCount amounts of the product
@@ -157,7 +157,7 @@ public class PaymentController implements BasicGetController<Payment>{
     }
 
     /**
-     *
+     * Change the status of order to "delivered"
      * @param id id of the order
      * @param receipt new receipt of the order
      * @return condition of the receipt submit

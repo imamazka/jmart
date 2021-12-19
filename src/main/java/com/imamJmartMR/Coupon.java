@@ -14,12 +14,23 @@ public class Coupon extends Serializable
     public final String name;
     public final Type type;
     private boolean used;
-    
+
+    /**
+     * Type of the coupon
+     */
     public enum Type{
         DISCOUNT,
         REBATE
     }
-    
+
+    /**
+     * Constructor for the coupon
+     * @param name coupon name
+     * @param code coupon code
+     * @param type coupon type
+     * @param cut coupon price cut
+     * @param minimum coupon minimum shopping amount
+     */
     public Coupon(String name, int code, Type type, double cut, double minimum){
         this.name = name;
         this.code = code;
@@ -29,6 +40,11 @@ public class Coupon extends Serializable
         this.used = false;
     }
 
+    /**
+     * Apply the coupon
+     * @param priceTag price of the product
+     * @return condition of the apply
+     */
     public double apply(Treasury priceTag){
         
         used = true;
@@ -45,6 +61,11 @@ public class Coupon extends Serializable
         return 0.0;
     }
 
+    /**
+     * Check if the coupon can be applied
+     * @param priceTag price of the product
+     * @return condition of the checked
+     */
     public boolean canApply(Treasury priceTag){
 
         if (priceTag.getAdjustedPrice() >= minimum && !used)
@@ -53,7 +74,10 @@ public class Coupon extends Serializable
             return false;
     }
 
-
+    /**
+     * Get condition of the coupon
+     * @return condition of the coupon
+     */
     public boolean isUsed(){
         return used;
     }

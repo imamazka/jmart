@@ -28,6 +28,13 @@ public class CouponController implements BasicGetController<Coupon> {
         return couponTable;
     }
 
+    /**
+     * Check if the new coupon can be applied
+     * @param id id of the coupon
+     * @param price price of the product
+     * @param discount discount of the product
+     * @return condition of the checked coupon
+     */
     @GetMapping("/{id}/canApply")
     boolean canApply (@PathVariable int id, @RequestParam double price, @RequestParam double discount) {
         if (couponTable == null || couponTable.isEmpty())
@@ -39,6 +46,12 @@ public class CouponController implements BasicGetController<Coupon> {
         return false;
     }
 
+    /**
+     * Get all available coupon
+     * @param page selected page
+     * @param pageSize size of each page
+     * @return List of the available coupon
+     */
     @GetMapping("/getAvailable")
     List<Coupon> getAvailable (@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "1") int pageSize) {
 
@@ -55,6 +68,11 @@ public class CouponController implements BasicGetController<Coupon> {
         return temp.subList(index, Math.min(index + pageSize, temp.size()));
     }
 
+    /**
+     * Check if the selected have been used or not
+     * @param id id of the coupon
+     * @return condition of the used coupon
+     */
     @GetMapping("/{id}/isUsed")
     boolean isUsed (@PathVariable int id) {
         if (couponTable == null || couponTable.isEmpty())

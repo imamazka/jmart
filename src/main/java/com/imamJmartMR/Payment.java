@@ -15,17 +15,32 @@ public class Payment extends Invoice
     public ArrayList<Record> history = new ArrayList<>();
     public Shipment shipment;
     public int productCount;
-    
+
+    /**
+     * Constructor for payment
+     * @param buyerId buyer id
+     * @param productId product id
+     * @param productCount amount of product
+     * @param shipment selected shipment
+     */
     public Payment(int buyerId, int productId, int productCount, Shipment shipment){
         super(buyerId, productId);
         this.productCount = productCount;
         this.shipment = shipment;
     }
 
+    /**
+     * Get payment total
+     * @param product selected product
+     * @return total of the payment
+     */
     public double getTotalPay(Product product) {
         return product.price;
     }
 
+    /**
+     * Record of the payment
+     */
     public static class Record
     {
         public final Date date;

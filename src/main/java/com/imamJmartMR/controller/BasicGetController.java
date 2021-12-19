@@ -17,6 +17,11 @@ public interface BasicGetController<T extends Serializable> {
 
     public abstract JsonTable<T> getJsonTable ();
 
+    /**
+     * Get request by Id
+     * @param id id of the user
+     * @return page of selected id;
+     */
     @GetMapping("/{id}")
     public default T getById (@PathVariable int id) {
         int i = 0;
@@ -29,6 +34,12 @@ public interface BasicGetController<T extends Serializable> {
         return null;
     }
 
+    /**
+     * Paginate page
+     * @param page selected page
+     * @param pageSize size of each page
+     * @return paginated page
+     */
     @GetMapping("/page")
     public default List<T> getPage (@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "1") int pageSize) {
 

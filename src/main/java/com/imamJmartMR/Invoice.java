@@ -17,6 +17,11 @@ public abstract class Invoice extends Serializable
     public int productId;
     public Rating rating;
 
+    /**
+     * Invoice details
+     * @param buyerId buyer id
+     * @param productId product id
+     */
     protected Invoice(int buyerId, int productId){
         this.buyerId = buyerId;
         this.complaintId = -1;
@@ -25,8 +30,16 @@ public abstract class Invoice extends Serializable
         this.rating = Rating.NONE;
     }
 
+    /**
+     * Get total pay of the product
+     * @param product selected product
+     * @return total of the product price
+     */
     public abstract double getTotalPay (Product product);
 
+    /**
+     * Status for the invoice
+     */
     public static enum Status{
         WAITING_CONFIRMATION,
         CANCELLED,
@@ -38,6 +51,9 @@ public abstract class Invoice extends Serializable
         FAILED
     }
 
+    /**
+     * Rating for each finished order
+     */
     public static enum Rating{
         NONE,
         BAD,

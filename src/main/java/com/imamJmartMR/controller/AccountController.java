@@ -35,7 +35,7 @@ public class AccountController implements BasicGetController<Account> {
     }
 
     /**
-     *
+     * Login to existing account
      * @param email user email used for login
      * @param password entered password for login
      * @return account of success logged user
@@ -68,7 +68,7 @@ public class AccountController implements BasicGetController<Account> {
 
 
     /**
-     *
+     * Register a new account
      * @param name new user name that will registered
      * @param email new user email
      * @param password new user password
@@ -108,7 +108,7 @@ public class AccountController implements BasicGetController<Account> {
     }
 
     /**
-     *
+     * Register new store
      * @param id user id that will register a store
      * @param name name of the new store
      * @param address address of the new store
@@ -131,10 +131,10 @@ public class AccountController implements BasicGetController<Account> {
     }
 
     /**
-     *
+     * Top-up a user balance
      * @param id user id
-     * @param balance balance of the top up
-     * @return condition of the top up
+     * @param balance balance of the top-up
+     * @return condition of the top-up
      */
     @PostMapping("/{id}/topUp")
     boolean topUp (@PathVariable int id, @RequestParam double balance) {

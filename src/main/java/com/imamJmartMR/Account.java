@@ -18,14 +18,25 @@ public class Account extends Serializable
     public String email;
     public String password;
     public Store store;
-    
+
+    /**
+     * Constructor for the account details
+     * @param name account name
+     * @param email account email
+     * @param password account password
+     * @param balance account balance
+     */
     public Account(String name, String email, String password, double balance){
         this.name = name;
         this.email = email;
         this.password = password;
         this.balance = balance;
     }
-    
+
+    /**
+     * Validate if the inputted email and password meet the requirement
+     * @return Condition of the validation
+     */
     public boolean validate(){
         Pattern pattern = Pattern.compile(REGEX_EMAIL);
         Matcher matcher = pattern.matcher(email);

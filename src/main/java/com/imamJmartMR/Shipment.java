@@ -22,7 +22,14 @@ public class Shipment
     public int cost;
     public byte plan;
     public String receipt;
-    
+
+    /**
+     * Shipment details
+     * @param address shipment address
+     * @param cost shipment cost
+     * @param plan shipment plan
+     * @param receipt shipment receipt
+     */
     public Shipment(String address, int cost, byte plan, String receipt){
         this.address = address;
         this.cost = cost;
@@ -30,6 +37,11 @@ public class Shipment
         this.receipt = receipt;
     }
 
+    /**
+     * Get estimated arrival date
+     * @param reference date reference
+     * @return estimated arrival date
+     */
     public String getEstimatedArrival(Date reference){
         Calendar temp = Calendar.getInstance();
         if(this.plan == 1<<0|| this.plan == 1<<1){
@@ -67,7 +79,9 @@ public class Shipment
         return false;
     }
 
-
+    /**
+     * Shipment plan
+     */
     public static class Plan
     {
         public final byte bit;
